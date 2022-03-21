@@ -5,10 +5,19 @@ import { PagesModule } from './pages/pages.module';
 import { ResourcesModule } from './resources/resources.module';
 import { ContainerModule } from './container/container.module';
 import { ProjectsModule } from './projects/projects.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [PagesModule, ResourcesModule, ContainerModule, ProjectsModule],
-  controllers: [AppController],
-  providers: [AppService],
+    imports: [
+        PagesModule,
+        ResourcesModule,
+        ContainerModule,
+        ProjectsModule,
+        AuthModule,
+        UsersModule
+    ],
+    controllers: [AppController],
+    providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
