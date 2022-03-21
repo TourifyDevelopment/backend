@@ -1,7 +1,7 @@
-import { Controller, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, UseGuards, Request } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { Project } from './entities/projects.entity';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 
 @Controller('projects')
@@ -17,8 +17,8 @@ export class ProjectsController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get('')
-    getProfile(@Request() req) {
+    @Post('/')
+    addProject(@Request() req) {
         return req.user;
     }
 
