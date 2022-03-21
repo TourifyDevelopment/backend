@@ -1,5 +1,3 @@
-import {ApiProperty} from '@nestjs/swagger';
-
 export class Project {
     /**
      * ID of the project tour
