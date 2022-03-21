@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    networks:
+      - main
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_URL=mongodb://user:test@mongodb:27017
+
+  mongodb:
+    image: "mongo"
+    container_name: "mongodb"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=test
+
+    networks:
+      - main
+    ports:
+      - "27017:27017"
+
+networks:
+  main:
+    driver: bridge
