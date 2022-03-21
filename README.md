@@ -31,3 +31,6 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Docs
+Docs available at: http://localhost:3000/docs
