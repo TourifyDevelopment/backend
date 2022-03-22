@@ -1,5 +1,10 @@
 # Tourify-Backend
 
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/tourifyDevelopment/backend/CI)
+![GitHub issues](https://img.shields.io/github/issues-raw/tourifyDevelopment/backend)
+![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/tourifyDevelopment/backend)
+
+
 ## Installation
 
 ```bash
