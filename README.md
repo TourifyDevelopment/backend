@@ -5,36 +5,11 @@
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/tourifyDevelopment/backend)
 
 
-## Installation
+## Setup
 
 ```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+$ docker compose build
+$ docker compose up
 ```
 
 ## Docs
