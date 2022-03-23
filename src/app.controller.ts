@@ -1,4 +1,4 @@
-import { Controller, Request, Post, Body, UseGuards, HttpException, HttpStatus, Get } from '@nestjs/common';
+import { Controller, Request, Post, Body, UseGuards, HttpException, HttpStatus, Get, HttpCode } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth/auth.service';
@@ -17,9 +17,10 @@ export class AppController {
     ) { }
 
     @ApiResponse({
-        status: 200,
+        status: 201,
         description: 'Login user with username and password - get access token',
     })
+    @HttpCode(201)
     @UseGuards(LocalAuthGuard)
     @Post('auth/login')
     async login(@Request() req) {
@@ -32,9 +33,10 @@ export class AppController {
     }
 
     @ApiResponse({
-        status: 200,
+        status: 201,
         description: 'Register user with username and password',
     })
+    @HttpCode(201)
     @Post('auth/register')
     async register(@Body() user: UserDto) {
         let returnValue = await this.usersService.create(user);
@@ -44,9 +46,10 @@ export class AppController {
     }
 
     @ApiResponse({
-        status: 200,
+        status: 201,
         description: 'Delete user with username (user must be logged in)',
     })
+    @HttpCode(201)
     @UseGuards(JwtAuthGuard)
     @Post('auth/delete')
     async deleteUser(@Request() req) {
@@ -58,8 +61,15 @@ export class AppController {
         }
     }
 
+    @ApiResponse({
+        status: 200,
+        description: 'Return all user',
+        type: [User]
+    })
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
     @Get('user/all')
-    async getAllUser() {
+    async getAllUser(): Promise<User[] | null> {
         return await this.usersService.getAll();
     }
 

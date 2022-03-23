@@ -1,21 +1,22 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, ObjectId } from 'mongoose';
+import { ApiProperty } from '@nestjs/swagger';
+import { Document } from 'mongoose';
 
-export type UserDocuemtn = User & Document;
+export type UserDocument = User & Document;
 
 @Schema()
 export class User {
-    /**
-     * Unique username
-     * @example "user01"
-     */
+    @ApiProperty({
+        description: `Unique username`,
+        example: 'user01'
+    })
     @Prop({ unique: true })
     username: string;
 
-    /**
-     * The password of the user
-     * @example "kjadsfk"
-     */
+    @ApiProperty({
+        description: `The password of the user`,
+        example: 'aslkdjf'
+    })
     @Prop()
     password: string;
 }
