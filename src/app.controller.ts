@@ -5,7 +5,6 @@ import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/guards/local-auth.guard';
 import { UserDto } from './users/dto/users.dto';
 import { UsersService } from './users/users.service';
-import { Logger } from '@nestjs/common';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { User } from './users/schemas/users.schema';
 
@@ -15,7 +14,6 @@ export class AppController {
     constructor(
         private authService: AuthService,
         private usersService: UsersService
-        //private loggerService: LoggerService
     ) { }
 
     @ApiResponse({
