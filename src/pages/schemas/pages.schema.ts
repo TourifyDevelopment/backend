@@ -1,42 +1,43 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 
 export type PageDocument = Page & Document;
 
 @Schema()
 export class Page {
-    /**
-     * Project id of the project this page is part of
-     * @example "923u54on"
-     */
+    @ApiProperty({
+        description: `Project id of the project this page is part of`,
+        example: 'kfjasdf'
+    })
     @Prop()
     projectId: string;
 
-    /**
-     * Name of the page, is unique
-     * @example "sn_labor"
-     */
+    @ApiProperty({
+        description: `Name of the page, is unique`,
+        example: 'sn_labor'
+    })
     @Prop({unique: true})
     name: string;
 
-    /**
-     * Display name of the page
-     * @example "Sn Labor"
-     */
+    @ApiProperty({
+        description: `Display name of the page`,
+        example: 'SN Labor'
+    })
     @Prop()
     displayName: string;
 
-    /**
-     * Map x coodinate of the page
-     * @example "50"
-     */
+    @ApiProperty({
+        description: `Map x coordinate of the page`,
+        example: '50'
+    })
     @Prop()
     mapX: number;
 
-    /**
-     * Map y coodinate of the page
-     * @example "30"
-     */
+    @ApiProperty({
+        description: `Map y coordinate of the page`,
+        example: '30'
+    })
     @Prop()
     mapY: number;
 }

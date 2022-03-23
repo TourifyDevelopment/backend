@@ -1,68 +1,64 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 
 export type ContainerDocument = Container & Document;
 
 @Schema()
 export class Container {
-    /**
-     * Page_id of the page where the container is on
-     * @example "ajsknkfd7sdf"
-     */
+    @ApiProperty({
+        description: `Page_id of the page where the container is on`,
+        example: 'hakdfjalsfj',
+    })
     @Prop()
     pageId: string;
 
-    /**
-     * Name of the container (Attention! doesn't have to be unique) 
-     * @example "logo_1"
-     */
+    @ApiProperty({
+        description: `Name of the container (Attention! doesn't have to be unique)`,
+        example: 'logo_1'
+    })
     @Prop()
     name: string;
 
-    /**
-     * x coordinate of the container
-     * @example "39"
-     */
+    @ApiProperty({
+        description: `x coordinate of the container`,
+        example: '39'
+    })
     @Prop()
     xCoordinate: number;
 
-    /**
-     * y coordinate of the container
-     * @example "29"
-     */
+    @ApiProperty({
+        description: `y coordinate of the container`,
+        example: '40'
+    })
     @Prop()
     yCoordinate: number;
 
-    /**
-     * width of the container
-     * @example "29"
-     */
+    @ApiProperty({
+        description: `width of the container`,
+        example: '29'
+    })
     @Prop()
     width: number;
 
-    /**
-     * height of the container
-     * @example "29"
-     */
+    @ApiProperty({
+        description: `height of the container`,
+        example: '29'
+    })
     @Prop()
     height: number;
 
-    /**
-     * type of content the container holds
-     * Can be:
-     *  - text
-     *  - image
-     *  - video
-     *  - audio
-     * @example "text"
-     */
+    @ApiProperty({
+        description: `type of content the container holds: text, image, video, audio`,
+        example: 'text'
+    })
     @Prop()
     type: string;
 
-    /**
-     * Id of the resource the container contains
-     * @example "aisjdf8sud"
-     */
+    @ApiProperty({
+        description: `Id of the resource the container contains`,
+        example: 'alsdjflka7sf'
+    })
     @Prop()
     resourceId: string;
 }
