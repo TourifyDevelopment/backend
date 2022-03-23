@@ -1,6 +1,6 @@
 import { Controller, Request, Post, Body, UseGuards, HttpException, HttpStatus, Get, HttpCode } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/guards/local-auth.guard';
 import { UserDto } from './users/dto/users.dto';
@@ -64,7 +64,7 @@ export class AppController {
     @ApiResponse({
         status: 200,
         description: 'Return all user',
-        type: [User]
+        type: [User],
     })
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)

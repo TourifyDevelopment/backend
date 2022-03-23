@@ -1,6 +1,6 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../../users/users.service';
 import { User } from 'src/users/schemas/users.schema';
@@ -23,7 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         if(user && user !== null) {
             return user;
         }else{
-            return new UnauthorizedException();
+            throw new UnauthorizedException();
         }
     }
 }
