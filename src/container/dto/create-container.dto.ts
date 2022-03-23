@@ -36,17 +36,6 @@ export class CreateContainerDto {
     height: number;
 
     /**
-     * type of content the container holds
-     * Can be:
-     *  - text
-     *  - image
-     *  - video
-     *  - audio
-     * @example "text"
-     */
-    type: string;
-
-    /**
      * Id of the resource the container contains
      * @example "aisjdf8sud"
      */

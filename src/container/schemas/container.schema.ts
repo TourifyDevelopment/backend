@@ -49,13 +49,6 @@ export class Container {
     height: number;
 
     @ApiProperty({
-        description: `type of content the container holds: text, image, video, audio`,
-        example: 'text'
-    })
-    @Prop()
-    type: string;
-
-    @ApiProperty({
         description: `Id of the resource the container contains`,
         example: 'alsdjflka7sf'
     })

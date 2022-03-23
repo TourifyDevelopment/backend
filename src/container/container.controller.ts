@@ -1,4 +1,4 @@
-import { Body, Controller, UseGuards, Post, Delete, Param, Get } from '@nestjs/common';
+import { Body, Controller, UseGuards, Post, Delete, Param, Get, HttpCode } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateContainerDto } from './dto/create-container.dto';
 import { ContainerService } from './container.service';
@@ -15,6 +15,7 @@ export class ContainerController {
         status: 201,
         description: 'Container successfully created',
     })
+    @HttpCode(201)
     @UseGuards(JwtAuthGuard)
     @Post('/')
     async createContainer(@Body() createContainerDto: CreateContainerDto) {
@@ -22,9 +23,10 @@ export class ContainerController {
     }
 
     @ApiResponse({
-        status: 201,
+        status: 200,
         description: 'Container successfully deleted',
     })
+    @HttpCode(200)
     @UseGuards(JwtAuthGuard)
     @Delete('/:containerId')
     async deleteContainer(@Param('containerId') containerId: string) {
@@ -32,22 +34,24 @@ export class ContainerController {
     }
 
     @ApiResponse({
-        status: 201,
+        status: 200,
         description: 'Return all container',
         type: [Container]
     })
+    @HttpCode(200)
     @Get('/all')
-    async getAllContainer() {
+    async getAllContainer(): Promise<Container[] |null>{
         return this.containerService.getAllContainer();
     }
 
     @ApiResponse({
-        status: 201,
+        status: 200,
         description: 'Return all container with the provided pageId',
         type: [Container]
     })
+    @HttpCode(200)
     @Get('/:pageId')
-    async getAllContainerForPageId(@Param('pageId') pageId: string) {
+    async getAllContainerForPageId(@Param('pageId') pageId: string): Promise<Container[] | null> {
         return this.containerService.getAllContainerforPageId(pageId);
     }
 
