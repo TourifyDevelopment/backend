@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Logger, Param, Post, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreatePageDto } from './dto/create-page.dto';
 import { PagesService } from './pages.service';
 import { Page } from './schemas/pages.schema';
