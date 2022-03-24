@@ -10,7 +10,7 @@ export class Project {
         description: `The name of the project`,
         example: 'TFO tour'
     })
-    @Prop()
+    @Prop({required: true})
     projectName: string;
 }
 

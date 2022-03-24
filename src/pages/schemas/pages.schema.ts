@@ -10,14 +10,14 @@ export class Page {
         description: `Project id of the project this page is part of`,
         example: 'kfjasdf'
     })
-    @Prop()
+    @Prop({required: true})
     projectId: string;
 
     @ApiProperty({
         description: `Name of the page, is unique`,
         example: 'sn_labor'
     })
-    @Prop({unique: true})
+    @Prop({unique: true, required: true})
     name: string;
 
     @ApiProperty({
