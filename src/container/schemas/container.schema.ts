@@ -10,14 +10,14 @@ export class Container {
         description: `Page_id of the page where the container is on`,
         example: 'hakdfjalsfj',
     })
-    @Prop()
+    @Prop({required: true})
     pageId: string;
 
     @ApiProperty({
         description: `Name of the container (Attention! doesn't have to be unique)`,
         example: 'logo_1'
     })
-    @Prop()
+    @Prop({required: true})
     name: string;
 
     @ApiProperty({
@@ -52,7 +52,7 @@ export class Container {
         description: `Id of the resource the container contains`,
         example: 'alsdjflka7sf'
     })
-    @Prop()
+    @Prop({required: true})
     resourceId: string;
 }
 

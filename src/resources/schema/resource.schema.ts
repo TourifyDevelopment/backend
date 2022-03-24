@@ -21,6 +21,7 @@ export class Resource {
     })
     @Prop({
         type: String,
+        required: true,
         enum: ResourceType,
     })
     type: ResourceType;
@@ -29,7 +30,7 @@ export class Resource {
         description: `Blob of the resource`,
         example: ''
     })
-    @Prop()
+    @Prop({ required: true })
     blob: Buffer;
 }
 

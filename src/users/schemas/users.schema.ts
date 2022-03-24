@@ -10,14 +10,14 @@ export class User {
         description: `Unique username`,
         example: 'user01'
     })
-    @Prop({ unique: true })
+    @Prop({ unique: true, required:true })
     username: string;
 
     @ApiProperty({
         description: `The password of the user`,
         example: 'aslkdjf'
     })
-    @Prop()
+    @Prop({required: true})
     password: string;
 
     @ApiProperty({
