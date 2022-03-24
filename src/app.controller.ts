@@ -66,11 +66,31 @@ export class AppController {
         description: 'Return all user',
         type: [User],
     })
-    @UseGuards(JwtAuthGuard)
     @HttpCode(200)
     @Get('user/all')
     async getAllUser(): Promise<User[] | null> {
         return await this.usersService.getAll();
     }
 
+    @ApiResponse({
+        status: 201,
+        description: 'Change profile picture',
+    })
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(201)
+    @Post('user/profilePic')
+    async changeProfilePicture(@Request() req) {
+        await this.usersService.changeProfilePicture(req.body.picture, req.user.username);
+    }
+
+    @ApiResponse({
+        status: 200,
+        description: 'Get profile Picture',
+    })
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @Get('user/profilePic')
+    async getProfilePicture(@Request() req): Promise<Blob | null> {
+        return this.usersService.getProfilePicture(req.user.username);
+    }
 }

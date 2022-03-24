@@ -19,6 +19,13 @@ export class User {
     })
     @Prop()
     password: string;
+
+    @ApiProperty({
+        description: `The user profile picture`,
+        example: '9230932'
+    })
+    @Prop()
+    profilePicture: Blob;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
