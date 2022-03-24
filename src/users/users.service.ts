@@ -14,7 +14,7 @@ class UserAlreadyExistsError extends Error {
 @Injectable()
 export class UsersService {
     constructor(
-        @InjectModel(User.name) private readonly userModule: Model<User>
+        @InjectModel(User.name) private readonly userModel: Model<User>
     ) { }
 
     async create(userDto: UserDto): Promise<{} | UserAlreadyExistsError>{
@@ -23,20 +23,31 @@ export class UsersService {
         if(result) {
             return new UserAlreadyExistsError('Username ' + userDto.username + ' already exists');
         }
-        await this.userModule.create(userDto);
+        await this.userModel.create(userDto);
     }
 
     async findOne(username: string): Promise<User | null> {
-        return this.userModule.findOne({username: username});
+        return this.userModel.findOne({username: username});
     }
 
     // TODO: do we also need the password another time for deletion?
     async delete(username: string) {
-        await this.userModule.deleteOne({username: username});
+        await this.userModel.deleteOne({username: username});
     }
 
     // TODO: remove this function (just for debug)
     async getAll(): Promise<User[]> {
-        return this.userModule.find({});
+        return this.userModel.find({});
+    }
+
+    async changeProfilePicture(picture: Blob, username: string) {
+        let user = await this.userModel.findOne({username: username});
+        user.profilePicture = picture;
+        await user.save();
+    }
+
+    async getProfilePicture(username: string): Promise<Blob | null> {
+        let user = await this.userModel.findOne({username: username});
+        return user.profilePicture;
     }
 }
