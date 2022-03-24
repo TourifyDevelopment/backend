@@ -34,6 +34,19 @@ services:
     ports:
       - "9090:9090"
 
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3001:3000"
+#    environment:
+#      - GF_INSTALL_PLUGINS=redis-app
+    volumes:
+      - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards
+    networks:
+      - main
+
 networks:
   main:
     driver: bridge
