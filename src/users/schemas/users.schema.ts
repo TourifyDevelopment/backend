@@ -25,7 +25,7 @@ export class User {
         example: '9230932'
     })
     @Prop()
-    profilePicture: Blob;
+    profilePicture: Buffer;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

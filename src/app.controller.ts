@@ -90,7 +90,7 @@ export class AppController {
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
     @Get('user/profilePic')
-    async getProfilePicture(@Request() req): Promise<Blob | null> {
+    async getProfilePicture(@Request() req): Promise<Buffer | null> {
         return this.usersService.getProfilePicture(req.user.username);
     }
 }
