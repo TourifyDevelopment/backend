@@ -42,8 +42,8 @@ services:
 #    environment:
 #      - GF_INSTALL_PLUGINS=redis-app
     volumes:
-      - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
-      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - "./config/grafana/datasources:/etc/grafana/provisioning/datasources"
+      - "./config/grafana/dashboards:/etc/grafana/provisioning/dashboards"
     networks:
       - main
 
