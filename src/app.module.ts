@@ -8,7 +8,8 @@ import { ProjectsModule } from './projects/projects.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import {MongooseModule} from '@nestjs/mongoose';
+import { MongooseModule } from '@nestjs/mongoose';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 
 @Module({
     imports: [
@@ -27,7 +28,8 @@ import {MongooseModule} from '@nestjs/mongoose';
                 uri: configService.get<string>('DB_URL'),
             }),
             inject: [ConfigService],
-        })
+        }),
+        PrometheusModule.register(),
     ],
     controllers: [AppController],
     providers: [AppService],

@@ -101,7 +101,7 @@ export class AppController {
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
     @Get('user/valid')
-    async isValid() {
-        throw new HttpException('JWT Token valid', HttpStatus.OK);
+    async isValid(@Request() req) {
+        return {username: req.user.username};
     }
 }
