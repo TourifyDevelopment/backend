@@ -93,4 +93,15 @@ export class AppController {
     async getProfilePicture(@Request() req): Promise<Buffer | null> {
         return this.usersService.getProfilePicture(req.user.username);
     }
+
+    @ApiResponse({
+        status: 200,
+        description: 'Returns Unauthorized if the user is not logged in or the jwt token is not valid'
+    })
+    @UseGuards(JwtAuthGuard)
+    @HttpCode(200)
+    @Get('user/valid')
+    async isValid() {
+        throw new HttpException('JWT Token valid', HttpStatus.OK);
+    }
 }
