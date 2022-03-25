@@ -12,6 +12,13 @@ export class Project {
     })
     @Prop({required: true})
     projectName: string;
+
+    @ApiProperty({
+        description: `The owner of the project(username)`,
+        example: 'user01'
+    })
+    @Prop({required: true})
+    owner: string;
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);

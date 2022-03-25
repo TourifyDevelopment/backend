@@ -10,8 +10,8 @@ export class ProjectsService {
         @InjectModel('ProjectModel') private readonly projectModel: Model<ProjectDocument>
     ) { }
 
-    async create(projectDto: ProjectDto): Promise<any> {
-        const createdProject = await this.projectModel.create(projectDto);
+    async create(project: Project): Promise<any> {
+        const createdProject = await this.projectModel.create(project);
         return createdProject;
     }
 
