@@ -75,11 +75,9 @@ async function updateProfilePic(blob) {
     };
 
     let res = await axios.post(base_url + '/user/profilePic', {
-        profilePic: blob,
+        picture: blob,
     }, config);
     console.log('Updating profile pic');
-    console.log(res);
-    setProfilePic();
 }
 
 
