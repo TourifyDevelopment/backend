@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Project, ProjectDocument } from './schemas/projects.schema';
 import { Model } from 'mongoose';
-import { ProjectDto } from './dto/projects.dto';
+import { CreateProjectDto } from './dto/projects.dto';
 
 @Injectable()
 export class ProjectsService {
@@ -10,8 +10,8 @@ export class ProjectsService {
         @InjectModel('ProjectModel') private readonly projectModel: Model<ProjectDocument>
     ) { }
 
-    async create(projectDto: ProjectDto): Promise<any> {
-        const createdProject = await this.projectModel.create(projectDto);
+    async create(project: Project): Promise<any> {
+        const createdProject = await this.projectModel.create(project);
         return createdProject;
     }
 

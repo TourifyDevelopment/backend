@@ -3,10 +3,13 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/guards/local-auth.guard';
-import { UserDto } from './users/dto/users.dto';
+import { CreateUserDto } from './users/dto/users.dto';
 import { UsersService } from './users/users.service';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { User } from './users/schemas/users.schema';
+import { ChangeProfilePictureDto } from './users/dto/changeprofilepic.dto';
+import { UserLoginDto } from './users/dto/userlogin.dto';
+import { DeleteUserDto } from './users/dto/deleteuser.dto';
 
 
 @Controller()
@@ -29,7 +32,7 @@ export class AppController {
     @HttpCode(201)
     @UseGuards(LocalAuthGuard)
     @Post('auth/login')
-    async login(@Request() req) {
+    async login(@Request() req, @Body() _: UserLoginDto) {
         let user: User | null = await this.usersService.findOne(req.user.username);
         if(user !== null) {
             return this.authService.login(user);
@@ -44,7 +47,7 @@ export class AppController {
     })
     @HttpCode(201)
     @Post('auth/register')
-    async register(@Body() user: UserDto) {
+    async register(@Body() user: CreateUserDto) {
         let returnValue = await this.usersService.create(user);
         if (returnValue instanceof Error) {
             throw new HttpException('Username already taken', HttpStatus.METHOD_NOT_ALLOWED);
@@ -58,10 +61,10 @@ export class AppController {
     @HttpCode(201)
     @UseGuards(JwtAuthGuard)
     @Post('auth/delete')
-    async deleteUser(@Request() req) {
+    async deleteUser(@Request() req, @Body() deleteUserDto: DeleteUserDto) {
         // Check if logged in user has the same username as the supplied username
-        if (req.user.username === req.body.username) {
-            await this.usersService.delete(req.body.username);
+        if (req.user.username === deleteUserDto.username) {
+            await this.usersService.delete(deleteUserDto.username);
         } else {
             throw new HttpException('Cannot delete another user', HttpStatus.METHOD_NOT_ALLOWED);
         }
@@ -85,8 +88,8 @@ export class AppController {
     @UseGuards(JwtAuthGuard)
     @HttpCode(201)
     @Post('user/profilePic')
-    async changeProfilePicture(@Request() req) {
-        await this.usersService.changeProfilePicture(req.body.picture, req.user.username);
+    async changeProfilePicture(@Request() req, @Body() changePictureDto: ChangeProfilePictureDto) {
+        await this.usersService.changeProfilePicture(changePictureDto.picture, req.user.username);
     }
 
     @ApiResponse({
