@@ -40,13 +40,13 @@ export class UsersService {
         return this.userModel.find({});
     }
 
-    async changeProfilePicture(picture: Buffer, username: string) {
+    async changeProfilePicture(picture: string, username: string) {
         let user = await this.userModel.findOne({username: username});
         user.profilePicture = picture;
         await user.save();
     }
 
-    async getProfilePicture(username: string): Promise<Buffer | null> {
+    async getProfilePicture(username: string): Promise<string | null> {
         let user = await this.userModel.findOne({username: username});
         return user.profilePicture;
     }

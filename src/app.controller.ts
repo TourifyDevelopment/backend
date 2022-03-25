@@ -16,6 +16,12 @@ export class AppController {
         private usersService: UsersService
     ) { }
 
+    @Get('/')
+    @HttpCode(200)
+    async test() {
+        return 'OK'
+    }
+
     @ApiResponse({
         status: 201,
         description: 'Login user with username and password - get access token',
@@ -90,7 +96,7 @@ export class AppController {
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
     @Get('user/profilePic')
-    async getProfilePicture(@Request() req): Promise<Buffer | null> {
+    async getProfilePicture(@Request() req): Promise<string | null> {
         return this.usersService.getProfilePicture(req.user.username);
     }
 

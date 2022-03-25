@@ -31,7 +31,7 @@ export class Resource {
         example: ''
     })
     @Prop({ required: true })
-    blob: Buffer;
+    blob: string;
 }
 
 export const ResourceSchema = SchemaFactory.createForClass(Resource);
