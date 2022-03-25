@@ -7,10 +7,10 @@ import { ProjectDto } from './dto/projects.dto';
 @Injectable()
 export class ProjectsService {
     constructor(
-        @InjectModel(Project.name) private readonly projectModel: Model<ProjectDocument>
+        @InjectModel('ProjectModel') private readonly projectModel: Model<ProjectDocument>
     ) { }
 
-    async create(projectDto: ProjectDto): Promise<Project> {
+    async create(projectDto: ProjectDto): Promise<any> {
         const createdProject = await this.projectModel.create(projectDto);
         return createdProject;
     }

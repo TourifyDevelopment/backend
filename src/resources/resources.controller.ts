@@ -1,6 +1,6 @@
 import { Controller, UseGuards, Post, Get, Delete, Body, Param, HttpCode } from '@nestjs/common';
 import { ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateResourceDto } from './dto/create-resource.dto';
 import { ResourcesService } from './resources.service';
 import { Resource, ResourceType } from './schema/resource.schema';

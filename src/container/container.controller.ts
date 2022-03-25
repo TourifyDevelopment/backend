@@ -1,5 +1,5 @@
 import { Body, Controller, UseGuards, Post, Delete, Param, Get, HttpCode } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateContainerDto } from './dto/create-container.dto';
 import { ContainerService } from './container.service';
 import { ApiResponse } from '@nestjs/swagger';
