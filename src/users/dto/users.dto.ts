@@ -1,4 +1,4 @@
-export class UserDto {
+export class CreateUserDto {
     /**
      * Unique username
      * @example "user01"
@@ -13,7 +13,8 @@ export class UserDto {
 
     /**
      * Profile picture of the user
-     * @example
+     * Profile picture is supplied as a base64 string
+     * @example "image/png;base64;alkdjfalk..."
      */
     profilePicture: string;
 

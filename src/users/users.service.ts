@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/users.schema';
 import { Model } from 'mongoose';
-import { UserDto } from './dto/users.dto';
+import { CreateUserDto } from './dto/users.dto';
 
 class UserAlreadyExistsError extends Error {
     constructor(message: string) {
@@ -17,7 +17,7 @@ export class UsersService {
         @InjectModel(User.name) private readonly userModel: Model<User>
     ) { }
 
-    async create(userDto: UserDto): Promise<{} | UserAlreadyExistsError>{
+    async create(userDto: CreateUserDto): Promise<{} | UserAlreadyExistsError>{
         // Check if username already exists
         let result = await this.findOne(userDto.username);
         if(result) {

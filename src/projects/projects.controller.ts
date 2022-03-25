@@ -1,7 +1,7 @@
-import { Controller, Delete, Get, Post, UseGuards, Param, HttpCode, Request } from '@nestjs/common';
+import { Controller, Delete, Get, Post, UseGuards, Param, HttpCode, Request, Body } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { ProjectDto } from './dto/projects.dto';
+import { CreateProjectDto } from './dto/projects.dto';
 import { ProjectsService } from './projects.service';
 import { Project } from './schemas/projects.schema';
 
@@ -30,10 +30,9 @@ export class ProjectsController {
     @HttpCode(201)
     @UseGuards(JwtAuthGuard)
     @Post('/')
-    async create(@Request() req) {
-        let projectDto: ProjectDto = req.body;
+    async create(@Request() req, @Body() createProjectDto: CreateProjectDto) {
         let project = new Project();
-        project.projectName = projectDto.projectName;
+        project.projectName = createProjectDto.projectName;
         // Add owner extracted from access_token to created project
         project.owner = req.user.username;
         await this.projectsService.create(project);
