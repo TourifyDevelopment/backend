@@ -13,5 +13,7 @@ $ docker compose up
 ```
 
 ## Docs
-Docs available at: http://localhost:3000/docs
-Internally hosted on: http://10.10.30.19:3000/docs/
+Docs available at: http://localhost/docs  
+Traefik dashboard at: http://localhost:8080  
+Grafana dashboard at: http://localhost:3001  
+Internally hosted on: http://10.10.30.19/docs/
