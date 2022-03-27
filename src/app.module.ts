@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PagesModule } from './pages/pages.module';
@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+import { AppLoggerMiddleware } from './logger.middleware';
 
 @Module({
     imports: [
@@ -34,4 +35,8 @@ import { PrometheusModule } from '@willsoto/nestjs-prometheus';
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule { }
+export class AppModule implements NestModule{
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(AppLoggerMiddleware).forRoutes('*'); 
+    } 
+}

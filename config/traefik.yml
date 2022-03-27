@@ -1,0 +1,15 @@
+## traefik.yml
+
+# Docker configuration backend
+providers:
+  docker:
+    exposedByDefault: false
+    network: traefik_public
+
+entryPoints:
+  http:
+    address: ":80"
+
+api:
+  insecure: true
+

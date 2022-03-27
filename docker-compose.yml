@@ -3,11 +3,14 @@ version: "3.9"
 services:
   app:
     build: .
-    container_name: "app"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.app_route.entrypoints=http
+      - traefik.http.routers.app_route.rule=PathPrefix(`/`)
+      - traefik.http.routers.app_route.service=app_service
+      - traefik.http.services.app_service.loadbalancer.server.port=80
     networks:
-      - main
-    ports:
-      - "3000:3000"
+      - traefik_public
     environment:
       - DB_URL=mongodb://user:test@mongodb:27017
     depends_on:
@@ -21,18 +24,18 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=test
 
     networks:
-      - main
-    ports:
-      - "27017:27017"
+      - traefik_public
+#    ports:
+#      - "27017:27017"
 
   prometheus:
     image: prom/prometheus
     networks: 
-      - main
+      - traefik_public
     volumes:
       - "./config:/etc/prometheus"
-    ports:
-      - "9090:9090"
+#    ports:
+#      - "9090:9090"
 
   grafana:
     image: grafana/grafana
@@ -45,8 +48,21 @@ services:
       - "./config/grafana/datasources:/etc/grafana/provisioning/datasources"
       - "./config/grafana/dashboards:/etc/grafana/provisioning/dashboards"
     networks:
-      - main
+      - traefik_public
+
+  traefik:
+    image: traefik:v2.6
+    ports:
+      - "8080:8080"
+      - "80:80"
+    volumes:
+      - "./config/traefik.yml:/etc/traefik/traefik.yml"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    restart: unless-stopped
+    networks:
+      - traefik_public
+
 
 networks:
-  main:
+  traefik_public:
     driver: bridge
