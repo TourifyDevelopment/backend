@@ -23,8 +23,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 11159,
   "graphTooltip": 0,
-  "id": 1,
-  "iteration": 1648121700752,
+  "iteration": 1648451318790,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -815,6 +814,7 @@
       }
     }
   ],
+  "refresh": "5s",
   "schemaVersion": 34,
   "style": "dark",
   "tags": [
@@ -886,6 +886,6 @@
   "timezone": "",
   "title": "NodeJS Application Dashboard",
   "uid": "PTSqcpJWk1",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }
