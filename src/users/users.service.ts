@@ -31,8 +31,13 @@ export class UsersService {
     }
 
     // TODO: do we also need the password another time for deletion?
-    async delete(username: string) {
-        await this.userModel.deleteOne({username: username});
+    async delete(username: string): Promise<undefined | {}> {
+        let user = await this.userModel.deleteOne({username: username});
+        if(user.deletedCount == 0) {
+            return undefined;
+        }else {
+            return {};
+        }
     }
 
     // TODO: remove this function (just for debug)

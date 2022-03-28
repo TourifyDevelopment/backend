@@ -14,8 +14,13 @@ export class ResourcesService {
         await this.resourceModel.create(createResourceDto);
     }
 
-    async deleteResource(id: string) {
-        await this.resourceModel.deleteOne({_id: id});
+    async deleteResource(id: string): Promise<undefined | Resource> {
+        let resource = await this.resourceModel.findByIdAndDelete({_id: id});
+        if(resource == null) {
+            return undefined;
+        }else{
+            return resource;
+        }
     }
 
     async getResourceById(id: string): Promise<Resource | null> {

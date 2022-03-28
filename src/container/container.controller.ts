@@ -1,4 +1,4 @@
-import { Body, Controller, UseGuards, Post, Delete, Param, Get, HttpCode } from '@nestjs/common';
+import { Body, Controller, UseGuards, Post, Delete, Param, Get, HttpCode, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateContainerDto } from './dto/create-container.dto';
 import { ContainerService } from './container.service';
@@ -26,11 +26,18 @@ export class ContainerController {
         status: 200,
         description: 'Container successfully deleted',
     })
+    @ApiResponse({
+        status: 404,
+        description: 'Container not found',
+    })
     @HttpCode(200)
     @UseGuards(JwtAuthGuard)
     @Delete('/:containerId')
     async deleteContainer(@Param('containerId') containerId: string) {
-        await this.containerService.deleteContainer(containerId);
+        let result = await this.containerService.deleteContainer(containerId);
+        if(result === undefined) {
+            throw new HttpException('Container not found', HttpStatus.NOT_FOUND);
+        }
     }
 
     @ApiResponse({

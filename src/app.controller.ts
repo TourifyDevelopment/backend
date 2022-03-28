@@ -58,13 +58,24 @@ export class AppController {
         status: 201,
         description: 'Delete user with username (user must be logged in)',
     })
+    @ApiResponse({
+        status: 404,
+        description: 'User not found',
+    })
+    @ApiResponse({
+        status: 405,
+        description: 'Cannot delete another user(Log in as the user you want to delete)',
+    })
     @HttpCode(201)
     @UseGuards(JwtAuthGuard)
     @Post('auth/delete')
     async deleteUser(@Request() req, @Body() deleteUserDto: DeleteUserDto) {
         // Check if logged in user has the same username as the supplied username
         if (req.user.username === deleteUserDto.username) {
-            await this.usersService.delete(deleteUserDto.username);
+            let result = await this.usersService.delete(deleteUserDto.username);
+            if(result === undefined) {
+                throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+            }
         } else {
             throw new HttpException('Cannot delete another user', HttpStatus.METHOD_NOT_ALLOWED);
         }

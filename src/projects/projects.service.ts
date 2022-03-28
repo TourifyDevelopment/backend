@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Project, ProjectDocument } from './schemas/projects.schema';
 import { Model } from 'mongoose';
@@ -19,10 +19,14 @@ export class ProjectsService {
         return this.projectModel.find().exec();
     }
 
-    async delete(id: string) {
+    async delete(id: string): Promise<undefined | Project> {
         const deletedProject = await this.projectModel
             .findByIdAndRemove({_id: id})
             .exec();
-        return deletedProject;
+        if(deletedProject === null) {
+            return undefined;
+        }else{
+            return deletedProject;
+        }
     }
 }

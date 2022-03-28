@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Post, UseGuards, Param, HttpCode, Request, Body } from '@nestjs/common';
+import { Controller, Delete, Get, Post, UseGuards, Param, HttpCode, Request, Body, HttpException, HttpStatus } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateProjectDto } from './dto/projects.dto';
@@ -33,20 +33,28 @@ export class ProjectsController {
     async create(@Request() req, @Body() createProjectDto: CreateProjectDto) {
         let project = new Project();
         project.projectName = createProjectDto.projectName;
+        project.description = createProjectDto.description;
         // Add owner extracted from access_token to created project
         project.owner = req.user.username;
         await this.projectsService.create(project);
     }
 
-    @ApiResponse({
-        status: 200,
-        description: 'Delete project',
-    })
-    @HttpCode(200)
     @UseGuards(JwtAuthGuard)
     @Delete('/:id')
+    @HttpCode(200)
+    @ApiResponse({
+        status: 200,
+        description: 'Project not deleted',
+    })
+    @ApiResponse({
+        status: 404,
+        description: 'Project not found',
+    })
     async delete(@Param('id') id: string) {
-        return this.projectsService.delete(id);
+        let response = await this.projectsService.delete(id);
+        if(response === undefined) {
+            throw new HttpException('No project found', HttpStatus.NOT_FOUND); 
+        }
     }
 
 }
