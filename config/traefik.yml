@@ -10,6 +10,9 @@ entryPoints:
   http:
     address: ":80"
 
+metrics:
+  prometheus: {}
+
 api:
   insecure: true
 
