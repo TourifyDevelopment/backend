@@ -14,8 +14,13 @@ export class ContainerService {
         await this.containerModule.create(createContainerDto); 
     }
 
-    async deleteContainer(containerId: string) {
-        await this.containerModule.deleteOne({_id: containerId});
+    async deleteContainer(containerId: string): Promise<undefined | Container> {
+        let result = await this.containerModule.findByIdAndDelete({_id: containerId}).exec();
+        if(result == null) {
+            return undefined;
+        }else {
+            return result;
+        }
     }
 
     async getAllContainer() {

@@ -259,7 +259,7 @@
           "refId": "A"
         }
       ],
-      "title": "503 Error count",
+      "title": "500 Error count",
       "type": "stat"
     },
     {

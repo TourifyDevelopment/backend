@@ -1,4 +1,5 @@
-import { Controller, UseGuards, Post, Get, Delete, Body, Param, HttpCode } from '@nestjs/common';
+import { Controller, UseGuards, Post, Get, Delete, Body, Param, HttpCode, HttpException, HttpStatus } from '@nestjs/common';
+import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateResourceDto } from './dto/create-resource.dto';
@@ -26,11 +27,18 @@ export class ResourcesController {
         status: 200,
         description: 'Delete Resource with id',
     })
+    @ApiResponse({
+        status: 404,
+        description: 'Resource not found',
+    })
     @HttpCode(200)
     @UseGuards(JwtAuthGuard)
     @Delete('/:resourceId')
     async deleteResource(@Param('resourceId') resourceId: string) {
-        await this.resourcesService.deleteResource(resourceId);
+        let result = await this.resourcesService.deleteResource(resourceId);
+        if(result === undefined) {
+            throw new HttpException('Resource not found', HttpStatus.NOT_FOUND);
+        }
     }
 
     @ApiResponse({

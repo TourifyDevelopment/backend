@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Logger, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreatePageDto } from './dto/create-page.dto';
@@ -36,10 +36,17 @@ export class PagesController {
         status: 200,
         description: 'Deletes a page with id',
     })
+    @ApiResponse({
+        status: 404,
+        description: 'Page with id not found',
+    })
     @UseGuards(JwtAuthGuard)
     @Delete(':pageId')
     async deletePage(@Param('pageId') pageId: string) {
-        this.pagesService.deletePage(pageId);
+        let result = await this.pagesService.deletePage(pageId);
+        if(result === undefined) {
+            throw new HttpException('Page not found', HttpStatus.NOT_FOUND);
+        }
     } 
 
     @ApiResponse({

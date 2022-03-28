@@ -26,7 +26,12 @@ export class PagesService {
         return pages;
     }
 
-    async deletePage(pageId: string) {
-        await this.pageModel.deleteOne({ _id: pageId });
+    async deletePage(pageId: string): Promise<undefined | Page > {
+        let page = await this.pageModel.findByIdAndDelete({ _id: pageId }).exec();
+        if(page == null) {
+            return undefined;
+        }else {
+            return page;
+        }
     }
 }
