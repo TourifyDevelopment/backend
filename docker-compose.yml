@@ -47,6 +47,7 @@ services:
     volumes:
       - "./config/grafana/datasources:/etc/grafana/provisioning/datasources"
       - "./config/grafana/dashboards:/etc/grafana/provisioning/dashboards"
+      - "./config/grafana/grafana.ini:/etc/grafana/grafana.ini"
     networks:
       - traefik_public
 
