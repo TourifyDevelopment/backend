@@ -13,6 +13,7 @@ services:
       - traefik_public
     environment:
       - DB_URL=mongodb://user:test@mongodb:27017
+    scale: 2
     depends_on:
       - mongodb
 
