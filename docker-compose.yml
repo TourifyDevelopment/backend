@@ -1,5 +1,6 @@
 version: "3.9"
 
+
 services:
   app:
     build: .
@@ -13,9 +14,11 @@ services:
       - traefik_public
     environment:
       - DB_URL=mongodb://user:test@mongodb:27017
-    scale: 2
+    deploy:
+        replicas: 2
     depends_on:
       - mongodb
+
 
   mongodb:
     image: "mongo"
@@ -63,7 +66,6 @@ services:
     restart: unless-stopped
     networks:
       - traefik_public
-
 
 networks:
   traefik_public:
