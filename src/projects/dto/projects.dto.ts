@@ -10,4 +10,10 @@ export class CreateProjectDto {
      * @example "Cool tfo tour"
      */
     description: string;
+
+    /**
+     * Main map of the project as a blob
+     * @example "image/png;base64;alkdjfalk..."
+     */
+    mapBlob: string;
 }

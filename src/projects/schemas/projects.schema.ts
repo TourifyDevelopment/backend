@@ -26,6 +26,13 @@ export class Project {
     })
     @Prop()
     description: string;
+
+    @ApiProperty({
+        description: `Main map of the project as a blob`,
+        example: 'image/png;base64;alkdjfalk...'
+    })
+    @Prop({required: true})
+    mapBlob: string;
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);

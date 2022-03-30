@@ -34,6 +34,7 @@ export class ProjectsController {
         let project = new Project();
         project.projectName = createProjectDto.projectName;
         project.description = createProjectDto.description;
+        project.mapBlob = createProjectDto.mapBlob;
         // Add owner extracted from access_token to created project
         project.owner = req.user.username;
         await this.projectsService.create(project);

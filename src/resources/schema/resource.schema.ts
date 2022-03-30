@@ -9,7 +9,6 @@ export enum ResourceType {
     Image = 'Image',
     Video = 'Video',
     Audio = 'Audio',
-    Map = 'Map',
 }
 
 @Schema()
@@ -28,7 +27,7 @@ export class Resource {
 
     @ApiProperty({
         description: `Blob of the resource`,
-        example: ''
+        example: 'image/png;base64;alkdjfalk...'
     })
     @Prop({ required: true })
     blob: string;

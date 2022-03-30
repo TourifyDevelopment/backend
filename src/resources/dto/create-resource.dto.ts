@@ -9,7 +9,7 @@ export class CreateResourceDto {
 
     /**
      * Blob of the resource file
-     * @example "10010101001"
+     * @example "image/png;base64;alkdjfalk..."
      */
     blob: string;
 }
