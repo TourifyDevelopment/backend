@@ -12,4 +12,10 @@ export class CreateResourceDto {
      * @example "image/png;base64;alkdjfalk..."
      */
     blob: string;
+
+    /**
+     * Style of the resource (optional) (can have every attribute)
+     * @example {"fontSize": "8", "color": "#983475"}
+     */
+    style?: Object;
 }
