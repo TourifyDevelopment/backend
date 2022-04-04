@@ -18,6 +18,11 @@ services:
         replicas: 2
     depends_on:
       - mongodb
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://seq:5341"
+
 
 
   mongodb:
@@ -63,6 +68,21 @@ services:
     volumes:
       - "./config/traefik.yml:/etc/traefik/traefik.yml"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    restart: unless-stopped
+    networks:
+      - traefik_public
+
+  seq:
+    image: datalust/seq
+    ports:
+      - "81:80"
+      - "5341:5341"
+    volumes:
+      - "./seqdata:/data"
+    environment:
+      - ACCEPT_EULA=Y
+      # admin password
+      - SEQ_FIRSTRUN_ADMINPASSWORDHASH=FMw4y8Yz3YVX+FAEDHTb7D6RC1WF2RVIm2/FImDF63yYGxBtPg==
     restart: unless-stopped
     networks:
       - traefik_public

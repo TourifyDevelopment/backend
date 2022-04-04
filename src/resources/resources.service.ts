@@ -7,11 +7,12 @@ import { CreateResourceDto } from './dto/create-resource.dto';
 @Injectable()
 export class ResourcesService {
     constructor(
-        @InjectModel(Resource.name) private resourceModel: Model<Resource>
+        @InjectModel('Resource') private resourceModel: Model<Resource>
     ) { }
 
-    async addResource(createResourceDto: CreateResourceDto) {
-        await this.resourceModel.create(createResourceDto);
+    async addResource(createResourceDto: CreateResourceDto): Promise<any> {
+        let createdResource = await this.resourceModel.create(createResourceDto);
+        return createdResource;
     }
 
     async deleteResource(id: string): Promise<undefined | Resource> {

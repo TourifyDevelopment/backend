@@ -8,12 +8,13 @@ import { CreatePageDto } from './dto/create-page.dto';
 @Injectable()
 export class PagesService {
     constructor(
-        @InjectModel(Page.name) private readonly pageModel: Model<Page>
+        @InjectModel('Page') private readonly pageModel: Model<Page>
     ) { }
 
-    async createPage(pageDto: CreatePageDto) {
+    async createPage(pageDto: CreatePageDto): Promise<any> {
         // TODO: check if page name is unique
-        await this.pageModel.create(pageDto);
+        let createdPage = await this.pageModel.create(pageDto);
+        return createdPage;
     }
 
     async getAllPagesForProject(projectId: string): Promise<Page[] | null> {
