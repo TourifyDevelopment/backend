@@ -18,6 +18,7 @@ services:
         replicas: 2
     depends_on:
       - mongodb
+      - seq
     logging:
       driver: "gelf"
       options:
@@ -74,6 +75,7 @@ services:
 
   seq:
     image: datalust/seq
+    container_name: seq
     ports:
       - "81:80"
       - "5341:5341"
