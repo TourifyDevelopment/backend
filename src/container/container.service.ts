@@ -7,11 +7,12 @@ import { CreateContainerDto } from './dto/create-container.dto';
 @Injectable()
 export class ContainerService {
     constructor(
-        @InjectModel(Container.name) private containerModule: Model<Container>
+        @InjectModel('Container') private containerModule: Model<Container>
     ) { }
 
-    async createContainer(createContainerDto: CreateContainerDto){
-        await this.containerModule.create(createContainerDto); 
+    async createContainer(createContainerDto: CreateContainerDto): Promise<any> {
+        let createdContainer = await this.containerModule.create(createContainerDto); 
+        return createdContainer;
     }
 
     async deleteContainer(containerId: string): Promise<undefined | Container> {

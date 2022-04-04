@@ -1,18 +1,79 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ResourcesService } from './resources.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { closeInMongodConnection, rootMongooseTestModule } from '../mongodb-helper';
+import { ResourceDocument, ResourceSchema, Resource, ResourceType } from './schema/resource.schema';
+import { Model } from 'mongoose';
+import { CreateResourceDto } from './dto/create-resource.dto';
 
-describe.skip('ResourcesService', () => {
-  let service: ResourcesService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [ResourcesService],
-    }).compile();
+describe('ResourceService', () => {
+    let service: ResourcesService;
+    let testingModule: TestingModule;
+    let resourceModel: Model<ResourceDocument>;
 
-    service = module.get<ResourcesService>(ResourcesService);
-  });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
+    beforeEach(async () => {
+        testingModule = await Test.createTestingModule({
+            imports: [
+                rootMongooseTestModule(),
+                MongooseModule.forFeature([{ name: 'Resource', schema: ResourceSchema }]),
+            ],
+            providers: [ResourcesService],
+        }).compile();
+
+
+        service = testingModule.get<ResourcesService>(ResourcesService);
+        resourceModel = testingModule.get<Model<ResourceDocument>>('ResourceModel');
+
+    });
+
+    test('should be defined', () => {
+        expect(service).toBeDefined();
+    });
+
+    test('create resource', async () => {
+        let newResource = new CreateResourceDto();
+        newResource.type = ResourceType.Image;
+        newResource.blob = 'image/png...';
+
+        await service.addResource(newResource);
+
+        let allResources = await resourceModel.find().exec();
+        expect(allResources.length).toBe(1);
+        expect(allResources[0].blob).toBe('image/png...');
+        expect(allResources[0].type).toBe(ResourceType.Image);
+    });
+
+    test('delete resource', async () => {
+        let newResource = new CreateResourceDto();
+        newResource.type = ResourceType.Image;
+        newResource.blob = 'image/png...';
+
+        let createdResource = await service.addResource(newResource);
+        await service.deleteResource(createdResource._id);
+
+        let allResources = await resourceModel.find().exec();
+
+
+        expect(allResources.length).toBe(0);
+    });
+
+    test('get resources with id', () => {
+        //TODO: implement this
+    });
+
+    test('get all resources', () => {
+        //TODO: implement this
+    });
+
+
+    afterEach(async () => {
+        // delete all entries after each test
+        await resourceModel.deleteMany({});
+    });
+
+    afterAll(async () => {
+        await closeInMongodConnection();
+    });
 });
