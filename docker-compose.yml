@@ -76,7 +76,7 @@ services:
     image: datalust/seq
     ports:
       - "81:80"
-      - "5341:5341"
+      #- "5341:5341"
     volumes:
       - "./seqdata:/data"
     environment:
