@@ -42,4 +42,10 @@ sudo ${DOCKER_CONFIG}/cli-plugins/docker-compose build
 sudo ${DOCKER_CONFIG}/cli-plugins/docker-compose up -d
 
 
-sudo docker run --name seq -d --restart unless-stopped -e ACCEPT_EULA=Y -e SEQ_FIRSTRUN_ADMINPASSWORDHASH="admin" -v /home/gruppe2/seqdata:/data -p 81:80 -p 5341:5341 datalust/seq
+sudo docker stop seq
+sudo docker rm seq
+
+PH=$(echo 'admin' | sudo docker run --rm -i datalust/seq config hash)
+mkdir -p /home/gruppe2/seqdata
+
+sudo docker run --name seq -d --restart unless-stopped -e ACCEPT_EULA=Y -e SEQ_FIRSTRUN_ADMINPASSWORDHASH="$PH" -v /home/gruppe2/seqdata:/data -p 81:80 -p 5341:5341 datalust/seq
