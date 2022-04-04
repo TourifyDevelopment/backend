@@ -21,7 +21,7 @@ services:
     logging:
       driver: "gelf"
       options:
-        gelf-address: "udp://localhost:5341"
+        gelf-address: "udp://seq:5341"
 
 
 
