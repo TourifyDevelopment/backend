@@ -2,12 +2,11 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Project, ProjectDocument } from './schemas/projects.schema';
 import { Model } from 'mongoose';
-import { CreateProjectDto } from './dto/projects.dto';
 
 @Injectable()
 export class ProjectsService {
     constructor(
-        @InjectModel('ProjectModel') private readonly projectModel: Model<ProjectDocument>
+        @InjectModel('Project') private readonly projectModel: Model<ProjectDocument>
     ) { }
 
     async create(project: Project): Promise<any> {
