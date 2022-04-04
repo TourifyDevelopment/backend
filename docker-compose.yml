@@ -18,6 +18,11 @@ services:
         replicas: 2
     depends_on:
       - mongodb
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://10.10.30.19:5341"
+
 
 
   mongodb:
