@@ -72,6 +72,21 @@ services:
     networks:
       - traefik_public
 
+  seq:
+    image: datalust/seq
+    ports:
+      - "81:80"
+      - "5341:5341"
+    volumes:
+      - "./seqdata:/data"
+    environment:
+      - ACCEPT_EULA=Y
+      # admin password
+      - SEQ_FIRSTRUN_ADMINPASSWORDHASH=FMw4y8Yz3YVX+FAEDHTb7D6RC1WF2RVIm2/FImDF63yYGxBtPg==
+    restart: unless-stopped
+    networks:
+      - traefik_public
+
 networks:
   traefik_public:
     driver: bridge
