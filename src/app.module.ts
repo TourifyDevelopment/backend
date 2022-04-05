@@ -10,7 +10,10 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
-import { AppLoggerMiddleware } from './logger.middleware';
+import { AppLoggerMiddleware } from './utils/logger.middleware';
+import * as winston from 'winston';
+import { WinstonModule } from 'nest-winston';
+import { SeqTransport } from '@datalust/winston-seq';
 
 @Module({
     imports: [
@@ -31,6 +34,18 @@ import { AppLoggerMiddleware } from './logger.middleware';
             inject: [ConfigService],
         }),
         PrometheusModule.register(),
+        WinstonModule.forRootAsync({
+            imports: [ConfigModule],
+            useFactory: async (configService: ConfigService) => ({
+                transports: [
+                    new SeqTransport({
+                        serverUrl: "http://seq:5341",
+                        onError: (e => { console.error(e) }),
+                    })
+                ],
+            }),
+            inject: [ConfigService],
+        }),
     ],
     controllers: [AppController],
     providers: [AppService],

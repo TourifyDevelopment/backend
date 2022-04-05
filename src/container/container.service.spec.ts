@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ContainerService } from './container.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { closeInMongodConnection, rootMongooseTestModule } from '../mongodb-helper';
+import { closeInMongodConnection, rootMongooseTestModule } from '../utils/mongodb-helper';
 import { ContainerDocument, ContainerSchema, Container } from './schemas/container.schema';
 import { Model } from 'mongoose';
 import { CreateContainerDto } from './dto/create-container.dto';
