@@ -19,11 +19,6 @@ services:
     depends_on:
       - mongodb
       - seq
-    logging:
-      driver: "gelf"
-      options:
-        gelf-address: "udp://seq:5341"
-
 
 
   mongodb:
@@ -75,7 +70,6 @@ services:
 
   seq:
     image: datalust/seq
-    container_name: seq
     ports:
       - "81:80"
       - "5341:5341"

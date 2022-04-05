@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ResourcesService } from './resources.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { closeInMongodConnection, rootMongooseTestModule } from '../mongodb-helper';
+import { closeInMongodConnection, rootMongooseTestModule } from '../utils/mongodb-helper';
 import { ResourceDocument, ResourceSchema, Resource, ResourceType } from './schema/resource.schema';
 import { Model } from 'mongoose';
 import { CreateResourceDto } from './dto/create-resource.dto';

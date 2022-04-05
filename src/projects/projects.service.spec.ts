@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectsService } from './projects.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { closeInMongodConnection, rootMongooseTestModule } from '../mongodb-helper';
+import { closeInMongodConnection, rootMongooseTestModule } from '../utils/mongodb-helper';
 import { ProjectDocument, ProjectSchema, Project } from './schemas/projects.schema';
 import { Model } from 'mongoose';
 
