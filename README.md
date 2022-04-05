@@ -16,4 +16,5 @@ $ docker compose up
 Docs available at: http://localhost/docs  
 Traefik dashboard at: http://localhost:8080  
 Grafana dashboard at: http://localhost:3001  
+Seq logs at: http://localhost:81  
 Internally hosted on: http://10.10.30.19/docs/
