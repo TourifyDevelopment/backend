@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@datalust/winston-seq": "^1.0.2",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^8.0.0",
@@ -31,6 +32,7 @@
     "@nestjs/swagger": "^5.2.0",
     "@willsoto/nestjs-prometheus": "^4.6.0",
     "mongoose": "^6.2.7",
+    "nest-winston": "^1.6.2",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
@@ -38,7 +40,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "swagger-ui-express": "^4.3.0"
+    "swagger-ui-express": "^4.3.0",
+    "winston": "^3.7.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PagesService } from './pages.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { closeInMongodConnection, rootMongooseTestModule } from '../mongodb-helper';
+import { closeInMongodConnection, rootMongooseTestModule } from '../utils/mongodb-helper';
 import { PageDocument, PageSchema, Page } from './schemas/pages.schema';
 import { Model } from 'mongoose';
 import { CreatePageDto } from './dto/create-page.dto';
