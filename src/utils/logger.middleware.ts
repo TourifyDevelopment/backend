@@ -11,7 +11,8 @@ export class AppLoggerMiddleware implements NestMiddleware {
     ) { }
 
     use(request: Request, response: Response, next: NextFunction): void {
-        const { ip, method, path: url } = request;
+        const { ip, method } = request;
+        const url = request.originalUrl;
         const userAgent = request.get('user-agent') || '';
 
         response.on('close', () => {
