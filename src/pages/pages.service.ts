@@ -14,7 +14,7 @@ export class PagesService {
     ) {}
 
     async createPage(pageDto: CreatePageDto): Promise<any> {
-    // TODO: check if page name is unique
+        // TODO: check if page name is unique
         let createdPage = await this.pageModel.create(pageDto);
         return createdPage;
     }
@@ -32,7 +32,7 @@ export class PagesService {
     }
 
     async deletePage(pageId: string): Promise<Error | Page> {
-    // Check if id is valid mongodb id
+        // Check if id is valid mongodb id
         if (!mongoose.Types.ObjectId.isValid(pageId)) {
             this.logger.log({
                 level: 'error',
@@ -45,7 +45,8 @@ export class PagesService {
         if (page == null) {
             this.logger.log({
                 level: 'error',
-                message: 'Cannot delete page - page with id: {pageId} not found',
+                message:
+                    'Cannot delete page - page with id: {pageId} not found',
                 pageId: pageId,
             });
             return new Error('Page with id not found');

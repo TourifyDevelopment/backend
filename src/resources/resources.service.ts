@@ -14,7 +14,9 @@ export class ResourcesService {
     ) {}
 
     async addResource(createResourceDto: CreateResourceDto): Promise<any> {
-        let createdResource = await this.resourceModel.create(createResourceDto);
+        let createdResource = await this.resourceModel.create(
+            createResourceDto,
+        );
         return createdResource;
     }
 
@@ -28,13 +30,13 @@ export class ResourcesService {
             return new Error('Resource id not valid');
         }
         const resource = await this.resourceModel.findByIdAndRemove({
-      _id: resourceId,
-    });
+            _id: resourceId,
+        });
         if (resource == null) {
             this.logger.log({
                 level: 'error',
                 message:
-          'Could not delete resource with id: {resourceId} - resource not found',
+                    'Could not delete resource with id: {resourceId} - resource not found',
                 resourceId: resourceId,
             });
             return new Error('Resource with id not found');
@@ -49,7 +51,7 @@ export class ResourcesService {
             this.logger.log({
                 level: 'error',
                 message:
-          'Could not get resource with id: {resourceId} - resource not found',
+                    'Could not get resource with id: {resourceId} - resource not found',
                 resourceId: resourceId,
             });
         }

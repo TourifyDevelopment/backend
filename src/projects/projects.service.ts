@@ -38,7 +38,8 @@ export class ProjectsService {
         if (deletedProject === null) {
             this.logger.log({
                 level: 'error',
-                message: 'Cannot delete Project with the id: {projectId} - not found',
+                message:
+                    'Cannot delete Project with the id: {projectId} - not found',
                 projectId: projectId,
             });
             return new Error('Project with id not found');

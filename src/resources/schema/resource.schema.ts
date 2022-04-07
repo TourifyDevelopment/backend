@@ -27,21 +27,21 @@ export class Resource {
         required: true,
         enum: ResourceType,
     })
-  type: ResourceType;
+    type: ResourceType;
 
     @ApiProperty({
         description: `Blob of the resource`,
         example: 'image/png;base64;alkdjfalk...',
     })
     @Prop({ required: true })
-  blob: string;
+    blob: string;
 
     @ApiProperty({
         description: `Style of the resource (optional)(any attributes)`,
         example: { fontSize: '8', color: '#983475' },
     })
     @Prop({ type: Object })
-  style: Object;
+    style: Object;
 }
 
 export const ResourceSchema = SchemaFactory.createForClass(Resource);

@@ -11,35 +11,35 @@ export class Page {
         example: 'kfjasdf',
     })
     @Prop({ required: true })
-  projectId: string;
+    projectId: string;
 
     @ApiProperty({
         description: `Name of the page, is unique`,
         example: 'sn_labor',
     })
     @Prop({ unique: true, required: true })
-  name: string;
+    name: string;
 
     @ApiProperty({
         description: `Display name of the page`,
         example: 'SN Labor',
     })
     @Prop()
-  displayName: string;
+    displayName: string;
 
     @ApiProperty({
         description: `Map x coordinate of the page`,
         example: '50',
     })
     @Prop()
-  mapX: number;
+    mapX: number;
 
     @ApiProperty({
         description: `Map y coordinate of the page`,
         example: '30',
     })
     @Prop()
-  mapY: number;
+    mapY: number;
 }
 
 export const PageSchema = SchemaFactory.createForClass(Page);

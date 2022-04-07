@@ -20,7 +20,7 @@ export class UsersService {
     ) {}
 
     async create(userDto: CreateUserDto): Promise<{} | UserAlreadyExistsError> {
-    // Check if username already exists
+        // Check if username already exists
         let result = await this.findOne(userDto.username);
         if (result) {
             this.logger.log({
@@ -72,7 +72,8 @@ export class UsersService {
         if (user == null) {
             this.logger.log({
                 level: 'error',
-                message: 'Cannot change profile picture of user - user not found',
+                message:
+                    'Cannot change profile picture of user - user not found',
             });
             return new Error('Cannot change profile picture');
         } else {

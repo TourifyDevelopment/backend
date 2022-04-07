@@ -43,8 +43,8 @@ export class AppController {
     @Post('auth/login')
     async login(@Request() req, @Body() _: UserLoginDto) {
         const user: User | null = await this.usersService.findOne(
-      req.user.username,
-    );
+            req.user.username,
+        );
         if (user !== null) {
             return this.authService.login(user);
         } else {
@@ -79,15 +79,17 @@ export class AppController {
     @ApiResponse({
         status: 405,
         description:
-      'Cannot delete another user(Log in as the user you want to delete)',
+            'Cannot delete another user(Log in as the user you want to delete)',
     })
     @HttpCode(201)
     @UseGuards(JwtAuthGuard)
     @Post('auth/delete')
     async deleteUser(@Request() req, @Body() deleteUserDto: DeleteUserDto) {
-    // Check if logged in user has the same username as the supplied username
+        // Check if logged in user has the same username as the supplied username
         if (req.user.username === deleteUserDto.username) {
-            const result = await this.usersService.delete(deleteUserDto.username);
+            const result = await this.usersService.delete(
+                deleteUserDto.username,
+            );
             if (result instanceof Error) {
                 throw new HttpException(result.message, HttpStatus.NOT_FOUND);
             }
@@ -122,13 +124,13 @@ export class AppController {
     @HttpCode(201)
     @Post('user/profilePic')
     async changeProfilePicture(
-    @Request() req,
+        @Request() req,
         @Body() changePictureDto: ChangeProfilePictureDto,
     ) {
         const result = await this.usersService.changeProfilePicture(
-      changePictureDto.picture,
-      req.user.username,
-    );
+            changePictureDto.picture,
+            req.user.username,
+        );
         if (result instanceof Error) {
             throw new HttpException(result.message, HttpStatus.NOT_FOUND);
         }
@@ -146,7 +148,9 @@ export class AppController {
     @HttpCode(200)
     @Get('user/profilePic')
     async getProfilePicture(@Request() req): Promise<string | null> {
-        let result = await this.usersService.getProfilePicture(req.user.username);
+        let result = await this.usersService.getProfilePicture(
+            req.user.username,
+        );
         if (result == null) {
             throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         }
@@ -156,7 +160,7 @@ export class AppController {
     @ApiResponse({
         status: 200,
         description:
-      'Returns Unauthorized if the user is not logged in or the jwt token is not valid',
+            'Returns Unauthorized if the user is not logged in or the jwt token is not valid',
     })
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)

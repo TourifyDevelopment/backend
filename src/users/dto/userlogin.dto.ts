@@ -1,13 +1,13 @@
 export class UserLoginDto {
     /**
-   * Username
-   * @example "user01"
-   */
+     * Username
+     * @example "user01"
+     */
     username: string;
 
     /**
-   * Password of the user
-   * @example "asdf"
-   */
+     * Password of the user
+     * @example "asdf"
+     */
     password: string;
 }

@@ -11,28 +11,28 @@ export class Project {
         example: 'TFO tour',
     })
     @Prop({ required: true })
-  projectName: string;
+    projectName: string;
 
     @ApiProperty({
         description: `The owner of the project(username)`,
         example: 'user01',
     })
     @Prop({ required: true })
-  owner: string;
+    owner: string;
 
     @ApiProperty({
         description: `Description of the project`,
         example: 'cool description',
     })
     @Prop()
-  description: string;
+    description: string;
 
     @ApiProperty({
         description: `Main map of the project as a blob`,
         example: 'image/png;base64;alkdjfalk...',
     })
     @Prop({ required: true })
-  mapBlob: string;
+    mapBlob: string;
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);

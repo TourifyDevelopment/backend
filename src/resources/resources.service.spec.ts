@@ -48,7 +48,8 @@ describe('ResourceService', () => {
         }).compile();
 
         service = testingModule.get<ResourcesService>(ResourcesService);
-        resourceModel = testingModule.get<Model<ResourceDocument>>('ResourceModel');
+        resourceModel =
+            testingModule.get<Model<ResourceDocument>>('ResourceModel');
     });
 
     test('should be defined', () => {
@@ -82,15 +83,15 @@ describe('ResourceService', () => {
     });
 
     test('get resources with id', () => {
-    //TODO: implement this
+        //TODO: implement this
     });
 
     test('get all resources', () => {
-    //TODO: implement this
+        //TODO: implement this
     });
 
     afterEach(async () => {
-    // delete all entries after each test
+        // delete all entries after each test
         await resourceModel.deleteMany({});
     });
 

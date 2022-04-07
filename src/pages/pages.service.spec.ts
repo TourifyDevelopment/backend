@@ -21,7 +21,9 @@ describe('PagesService', () => {
         testingModule = await Test.createTestingModule({
             imports: [
                 rootMongooseTestModule(),
-                MongooseModule.forFeature([{ name: 'Page', schema: PageSchema }]),
+                MongooseModule.forFeature([
+                    { name: 'Page', schema: PageSchema },
+                ]),
                 WinstonModule.forRootAsync({
                     imports: [ConfigModule],
                     useFactory: async (configService: ConfigService) => ({
@@ -80,15 +82,15 @@ describe('PagesService', () => {
     });
 
     test('get all pages', () => {
-    // TODO: write this
+        // TODO: write this
     });
 
     test('get all pages for project', () => {
-    // TODO: write this
+        // TODO: write this
     });
 
     afterEach(async () => {
-    // delete all entries after each test
+        // delete all entries after each test
         await pageModel.deleteMany({});
     });
 

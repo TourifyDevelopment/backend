@@ -24,7 +24,9 @@ describe('ProjectsService', () => {
         testingModule = await Test.createTestingModule({
             imports: [
                 rootMongooseTestModule(),
-                MongooseModule.forFeature([{ name: 'Project', schema: ProjectSchema }]),
+                MongooseModule.forFeature([
+                    { name: 'Project', schema: ProjectSchema },
+                ]),
                 WinstonModule.forRootAsync({
                     imports: [ConfigModule],
                     useFactory: async (configService: ConfigService) => ({
@@ -44,7 +46,8 @@ describe('ProjectsService', () => {
         }).compile();
 
         service = testingModule.get<ProjectsService>(ProjectsService);
-        projectModel = testingModule.get<Model<ProjectDocument>>('ProjectModel');
+        projectModel =
+            testingModule.get<Model<ProjectDocument>>('ProjectModel');
     });
 
     test('should be defined', () => {
@@ -78,11 +81,11 @@ describe('ProjectsService', () => {
     });
 
     test('get all projects', () => {
-    // Skipping, because this is already tested in create project
+        // Skipping, because this is already tested in create project
     });
 
     afterEach(async () => {
-    // delete all entries after each test
+        // delete all entries after each test
         await projectModel.deleteMany({});
     });
 

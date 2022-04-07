@@ -1,7 +1,7 @@
 export class DeleteUserDto {
     /**
-   * Username
-   * @example "user01"
-   */
+     * Username
+     * @example "user01"
+     */
     username: string;
 }

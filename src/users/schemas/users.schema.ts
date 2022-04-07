@@ -11,21 +11,21 @@ export class User {
         example: 'user01',
     })
     @Prop({ unique: true, required: true })
-  username: string;
+    username: string;
 
     @ApiProperty({
         description: `The password of the user`,
         example: 'aslkdjf',
     })
     @Prop({ required: true })
-  password: string;
+    password: string;
 
     @ApiProperty({
         description: `The user profile picture`,
         example: '9230932',
     })
     @Prop()
-  profilePicture: string;
+    profilePicture: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
