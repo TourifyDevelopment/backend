@@ -16,28 +16,30 @@ class UserAlreadyExistsError extends Error {
 export class UsersService {
     constructor(
         @InjectModel(User.name) private readonly userModel: Model<User>,
-        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger
-    ) { }
+        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+    ) {}
 
-    async create(userDto: CreateUserDto): Promise<{} | UserAlreadyExistsError>{
-        // Check if username already exists
+    async create(userDto: CreateUserDto): Promise<{} | UserAlreadyExistsError> {
+    // Check if username already exists
         let result = await this.findOne(userDto.username);
-        if(result) {
+        if (result) {
             this.logger.log({
                 level: 'error',
-                message: 'Cannot create user - username already exists'
+                message: 'Cannot create user - username already exists',
             });
-            return new UserAlreadyExistsError('Username ' + userDto.username + ' already exists');
+            return new UserAlreadyExistsError(
+                'Username ' + userDto.username + ' already exists',
+            );
         }
         await this.userModel.create(userDto);
     }
 
     async findOne(username: string): Promise<User | null> {
-        let user = await this.userModel.findOne({username: username});
-        if(user == null) {
+        const user = await this.userModel.findOne({ username: username });
+        if (user == null) {
             this.logger.log({
                 level: 'error',
-                message: 'Cannot get user - username not found'
+                message: 'Cannot get user - username not found',
             });
         }
         return user;
@@ -45,14 +47,14 @@ export class UsersService {
 
     // TODO: do we also need the password another time for deletion?
     async delete(username: string): Promise<Error | {}> {
-        let user = await this.userModel.deleteOne({username: username});
-        if(user.deletedCount == 0) {
+        const user = await this.userModel.deleteOne({ username: username });
+        if (user.deletedCount == 0) {
             this.logger.log({
                 level: 'error',
-                message: 'Cannot delete user - user with username not found'
+                message: 'Cannot delete user - user with username not found',
             });
             return new Error('User with username not found');
-        }else {
+        } else {
             return {};
         }
     }
@@ -62,27 +64,30 @@ export class UsersService {
         return this.userModel.find({});
     }
 
-    async changeProfilePicture(picture: string, username: string): Promise<{} | Error> {
-        let user = await this.userModel.findOne({username: username});
-        if(user == null) {
+    async changeProfilePicture(
+        picture: string,
+        username: string,
+    ): Promise<{} | Error> {
+        const user = await this.userModel.findOne({ username: username });
+        if (user == null) {
             this.logger.log({
                 level: 'error',
-                message: 'Cannot change profile picture of user - user not found'
+                message: 'Cannot change profile picture of user - user not found',
             });
             return new Error('Cannot change profile picture');
-        }else {
+        } else {
             user.profilePicture = picture;
             await user.save();
-            return {}
+            return {};
         }
     }
 
     async getProfilePicture(username: string): Promise<string | null> {
-        let user = await this.userModel.findOne({username: username});
-        if(user == null) {
+        const user = await this.userModel.findOne({ username: username });
+        if (user == null) {
             this.logger.log({
                 level: 'error',
-                message: 'Cannot get profile picture of user - user not found'
+                message: 'Cannot get profile picture of user - user not found',
             });
             return null;
         }

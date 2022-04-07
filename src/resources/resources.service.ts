@@ -10,8 +10,8 @@ import mongoose from 'mongoose';
 export class ResourcesService {
     constructor(
         @InjectModel('Resource') private resourceModel: Model<Resource>,
-        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger
-    ) { }
+        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+    ) {}
 
     async addResource(createResourceDto: CreateResourceDto): Promise<any> {
         let createdResource = await this.resourceModel.create(createResourceDto);
@@ -19,34 +19,38 @@ export class ResourcesService {
     }
 
     async deleteResource(resourceId: string): Promise<Error | Resource> {
-        if(!mongoose.Types.ObjectId.isValid(resourceId)){
+        if (!mongoose.Types.ObjectId.isValid(resourceId)) {
             this.logger.log({
                 level: 'error',
                 message: 'Cannot delete resource - id: {resourceId} not valid',
-                resourceId: resourceId
+                resourceId: resourceId,
             });
             return new Error('Resource id not valid');
         }
-        let resource = await this.resourceModel.findByIdAndRemove({_id: resourceId});
-        if(resource == null) {
+        const resource = await this.resourceModel.findByIdAndRemove({
+      _id: resourceId,
+    });
+        if (resource == null) {
             this.logger.log({
                 level: 'error',
-                message: 'Could not delete resource with id: {resourceId} - resource not found',
-                resourceId: resourceId
+                message:
+          'Could not delete resource with id: {resourceId} - resource not found',
+                resourceId: resourceId,
             });
             return new Error('Resource with id not found');
-        }else{
+        } else {
             return resource;
         }
     }
 
     async getResourceById(resourceId: string): Promise<Resource | null> {
-        let resource = await this.resourceModel.findOne({_id: resourceId}); 
-        if(resource == null) {
+        let resource = await this.resourceModel.findOne({ _id: resourceId });
+        if (resource == null) {
             this.logger.log({
                 level: 'error',
-                message: 'Could not get resource with id: {resourceId} - resource not found',
-                resourceId: resourceId
+                message:
+          'Could not get resource with id: {resourceId} - resource not found',
+                resourceId: resourceId,
             });
         }
         return resource;

@@ -24,7 +24,7 @@ import { SeqTransport } from '@datalust/winston-seq';
         AuthModule,
         UsersModule,
         ConfigModule.forRoot({
-            isGlobal: true
+            isGlobal: true,
         }),
         MongooseModule.forRootAsync({
             imports: [ConfigModule],
@@ -39,9 +39,11 @@ import { SeqTransport } from '@datalust/winston-seq';
             useFactory: async (configService: ConfigService) => ({
                 transports: [
                     new SeqTransport({
-                        serverUrl: "http://seq:5341",
-                        onError: (e => { console.error(e) }),
-                    })
+                        serverUrl: 'http://seq:5341',
+                        onError: (e) => {
+                            console.error(e);
+                        },
+                    }),
                 ],
             }),
             inject: [ConfigService],
@@ -50,8 +52,8 @@ import { SeqTransport } from '@datalust/winston-seq';
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule implements NestModule{
+export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
-        consumer.apply(AppLoggerMiddleware).forRoutes('*'); 
-    } 
+        consumer.apply(AppLoggerMiddleware).forRoutes('*');
+    }
 }

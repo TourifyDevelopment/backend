@@ -10,50 +10,50 @@ export class Container {
         description: `Page_id of the page where the container is on`,
         example: 'hakdfjalsfj',
     })
-    @Prop({required: true})
-    pageId: string;
+    @Prop({ required: true })
+  pageId: string;
 
     @ApiProperty({
         description: `Name of the container (Attention! doesn't have to be unique)`,
-        example: 'logo_1'
+        example: 'logo_1',
     })
-    @Prop({required: true})
-    name: string;
+    @Prop({ required: true })
+  name: string;
 
     @ApiProperty({
         description: `x coordinate of the container`,
-        example: '39'
+        example: '39',
     })
     @Prop()
-    xCoordinate: number;
+  xCoordinate: number;
 
     @ApiProperty({
         description: `y coordinate of the container`,
-        example: '40'
+        example: '40',
     })
     @Prop()
-    yCoordinate: number;
+  yCoordinate: number;
 
     @ApiProperty({
         description: `width of the container`,
-        example: '29'
+        example: '29',
     })
     @Prop()
-    width: number;
+  width: number;
 
     @ApiProperty({
         description: `height of the container`,
-        example: '29'
+        example: '29',
     })
     @Prop()
-    height: number;
+  height: number;
 
     @ApiProperty({
         description: `Id of the resource the container contains`,
-        example: 'alsdjflka7sf'
+        example: 'alsdjflka7sf',
     })
-    @Prop({required: true})
-    resourceId: string;
+    @Prop({ required: true })
+  resourceId: string;
 }
 
 export const ContainerSchema = SchemaFactory.createForClass(Container);

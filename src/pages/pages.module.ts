@@ -5,8 +5,8 @@ import { PagesService } from './pages.service';
 import { Page, PageSchema } from './schemas/pages.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{name: 'Page', schema: PageSchema}])],
+  imports: [MongooseModule.forFeature([{ name: 'Page', schema: PageSchema }])],
   controllers: [PagesController],
-  providers: [PagesService]
+  providers: [PagesService],
 })
 export class PagesModule {}
