@@ -35,8 +35,8 @@ export class ContainerController {
     @Delete('/:containerId')
     async deleteContainer(@Param('containerId') containerId: string) {
         let result = await this.containerService.deleteContainer(containerId);
-        if(result === undefined) {
-            throw new HttpException('Container not found', HttpStatus.NOT_FOUND);
+        if(result instanceof Error) {
+            throw new HttpException(result.message, HttpStatus.NOT_FOUND);
         }
     }
 

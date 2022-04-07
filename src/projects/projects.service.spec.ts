@@ -52,7 +52,7 @@ describe('ProjectsService', () => {
         project.owner = 'gabriel';
         project.mapBlob = 'image/png;base64;alkdjfalk...';
         let createdProject = await service.create(project);
-        await service.delete(createdProject._id);
+        await service.deleteProject(createdProject._id);
         let allProjects = await projectModel.find().exec();
         expect(allProjects.length).toBe(0);
     });

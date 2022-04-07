@@ -1,13 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Resource } from './schema/resource.schema';
 import { Model } from 'mongoose';
 import { CreateResourceDto } from './dto/create-resource.dto';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class ResourcesService {
     constructor(
-        @InjectModel('Resource') private resourceModel: Model<Resource>
+        @InjectModel('Resource') private resourceModel: Model<Resource>,
+        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger
     ) { }
 
     async addResource(createResourceDto: CreateResourceDto): Promise<any> {
@@ -15,17 +18,38 @@ export class ResourcesService {
         return createdResource;
     }
 
-    async deleteResource(id: string): Promise<undefined | Resource> {
-        let resource = await this.resourceModel.findByIdAndDelete({_id: id});
+    async deleteResource(resourceId: string): Promise<Error | Resource> {
+        if(!mongoose.Types.ObjectId.isValid(resourceId)){
+            this.logger.log({
+                level: 'error',
+                message: 'Cannot delete resource - id: {resourceId} not valid',
+                resourceId: resourceId
+            });
+            return new Error('Resource id not valid');
+        }
+        let resource = await this.resourceModel.findByIdAndRemove({_id: resourceId});
         if(resource == null) {
-            return undefined;
+            this.logger.log({
+                level: 'error',
+                message: 'Could not delete resource with id: {resourceId} - resource not found',
+                resourceId: resourceId
+            });
+            return new Error('Resource with id not found');
         }else{
             return resource;
         }
     }
 
-    async getResourceById(id: string): Promise<Resource | null> {
-        return this.resourceModel.findOne({_id: id}); 
+    async getResourceById(resourceId: string): Promise<Resource | null> {
+        let resource = await this.resourceModel.findOne({_id: resourceId}); 
+        if(resource == null) {
+            this.logger.log({
+                level: 'error',
+                message: 'Could not get resource with id: {resourceId} - resource not found',
+                resourceId: resourceId
+            });
+        }
+        return resource;
     }
 
     async getAllResources(): Promise<Resource[] | null> {
