@@ -44,8 +44,8 @@ export class PagesController {
     @Delete(':pageId')
     async deletePage(@Param('pageId') pageId: string) {
         let result = await this.pagesService.deletePage(pageId);
-        if(result === undefined) {
-            throw new HttpException('Page not found', HttpStatus.NOT_FOUND);
+        if(result instanceof Error) {
+            throw new HttpException(result.message, HttpStatus.NOT_FOUND);
         }
     } 
 

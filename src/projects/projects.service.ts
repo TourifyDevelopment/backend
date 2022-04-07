@@ -1,12 +1,16 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable, Inject, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Project, ProjectDocument } from './schemas/projects.schema';
 import { Model } from 'mongoose';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import mongoose from 'mongoose';
+import { errorMonitor } from 'events';
 
 @Injectable()
 export class ProjectsService {
     constructor(
-        @InjectModel('Project') private readonly projectModel: Model<ProjectDocument>
+        @InjectModel('Project') private readonly projectModel: Model<ProjectDocument>,
+        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger
     ) { }
 
     async create(project: Project): Promise<any> {
@@ -18,12 +22,25 @@ export class ProjectsService {
         return this.projectModel.find().exec();
     }
 
-    async delete(id: string): Promise<undefined | Project> {
+    async deleteProject(projectId: string): Promise<Error | Project> {
+        if(!mongoose.Types.ObjectId.isValid(projectId)){
+            this.logger.log({
+                level: 'error',
+                message: 'Cannot delete project - id: {projectId} not valid',
+                projectId: projectId
+            });
+            return new Error('ProjectId not valid');
+        }
         const deletedProject = await this.projectModel
-            .findByIdAndRemove({_id: id})
+            .findByIdAndRemove(projectId)
             .exec();
         if(deletedProject === null) {
-            return undefined;
+            this.logger.log({
+                level: 'error',
+                message: 'Cannot delete Project with the id: {projectId} - not found',
+                projectId: projectId
+            });
+            return new Error('Project with id not found');
         }else{
             return deletedProject;
         }

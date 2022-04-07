@@ -52,9 +52,9 @@ export class ProjectsController {
         description: 'Project not found',
     })
     async delete(@Param('id') id: string) {
-        let response = await this.projectsService.delete(id);
-        if(response === undefined) {
-            throw new HttpException('No project found', HttpStatus.NOT_FOUND); 
+        let response = await this.projectsService.deleteProject(id);
+        if(response instanceof Error) {
+            throw new HttpException(response.message, HttpStatus.NOT_FOUND); 
         }
     }
 

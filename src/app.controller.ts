@@ -73,8 +73,8 @@ export class AppController {
         // Check if logged in user has the same username as the supplied username
         if (req.user.username === deleteUserDto.username) {
             let result = await this.usersService.delete(deleteUserDto.username);
-            if(result === undefined) {
-                throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+            if(result instanceof Error) {
+                throw new HttpException(result.message, HttpStatus.NOT_FOUND);
             }
         } else {
             throw new HttpException('Cannot delete another user', HttpStatus.METHOD_NOT_ALLOWED);
@@ -94,24 +94,39 @@ export class AppController {
 
     @ApiResponse({
         status: 201,
-        description: 'Change profile picture',
+        description: 'Changed profile picture',
+    })
+    @ApiResponse({
+        status: 404,
+        description: 'User not found',
     })
     @UseGuards(JwtAuthGuard)
     @HttpCode(201)
     @Post('user/profilePic')
     async changeProfilePicture(@Request() req, @Body() changePictureDto: ChangeProfilePictureDto) {
-        await this.usersService.changeProfilePicture(changePictureDto.picture, req.user.username);
+        let result = await this.usersService.changeProfilePicture(changePictureDto.picture, req.user.username);
+        if(result instanceof Error) {
+            throw new HttpException(result.message, HttpStatus.NOT_FOUND);
+        }
     }
 
     @ApiResponse({
         status: 200,
         description: 'Get profile Picture',
     })
+    @ApiResponse({
+        status: 404,
+        description: 'User not found',
+    })
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
     @Get('user/profilePic')
     async getProfilePicture(@Request() req): Promise<string | null> {
-        return this.usersService.getProfilePicture(req.user.username);
+        let result = await this.usersService.getProfilePicture(req.user.username);
+        if(result == null) {
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        }
+        return result;
     }
 
     @ApiResponse({
