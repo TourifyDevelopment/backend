@@ -4,6 +4,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { closeInMongodConnection, rootMongooseTestModule } from '../utils/mongodb-helper';
 import { ProjectDocument, ProjectSchema, Project } from './schemas/projects.schema';
 import { Model } from 'mongoose';
+import { WinstonModule } from 'nest-winston';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { SeqTransport } from '@datalust/winston-seq';
 
 
 describe('ProjectsService', () => {
@@ -17,6 +20,18 @@ describe('ProjectsService', () => {
             imports: [
                 rootMongooseTestModule(),
                 MongooseModule.forFeature([{ name: 'Project', schema: ProjectSchema }]),
+                WinstonModule.forRootAsync({
+                    imports: [ConfigModule],
+                    useFactory: async (configService: ConfigService) => ({
+                        transports: [
+                            new SeqTransport({
+                                serverUrl: "http://seq:5341",
+                                onError: (e => { console.error(e) }),
+                            })
+                        ],
+                    }),
+                    inject: [ConfigService],
+                }),
             ],
             providers: [ProjectsService],
         }).compile();

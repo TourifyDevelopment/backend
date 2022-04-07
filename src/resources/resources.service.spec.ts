@@ -5,6 +5,9 @@ import { closeInMongodConnection, rootMongooseTestModule } from '../utils/mongod
 import { ResourceDocument, ResourceSchema, Resource, ResourceType } from './schema/resource.schema';
 import { Model } from 'mongoose';
 import { CreateResourceDto } from './dto/create-resource.dto';
+import { WinstonModule } from 'nest-winston';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { SeqTransport } from '@datalust/winston-seq';
 
 
 describe('ResourceService', () => {
@@ -18,6 +21,18 @@ describe('ResourceService', () => {
             imports: [
                 rootMongooseTestModule(),
                 MongooseModule.forFeature([{ name: 'Resource', schema: ResourceSchema }]),
+                WinstonModule.forRootAsync({
+                    imports: [ConfigModule],
+                    useFactory: async (configService: ConfigService) => ({
+                        transports: [
+                            new SeqTransport({
+                                serverUrl: "http://seq:5341",
+                                onError: (e => { console.error(e) }),
+                            })
+                        ],
+                    }),
+                    inject: [ConfigService],
+                }),
             ],
             providers: [ResourcesService],
         }).compile();
