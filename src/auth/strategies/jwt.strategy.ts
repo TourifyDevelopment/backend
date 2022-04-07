@@ -7,10 +7,7 @@ import { User } from '../../users/schemas/users.schema';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor(
-        private configService: ConfigService,
-        private userService: UsersService,
-    ) {
+    constructor(private configService: ConfigService, private userService: UsersService) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
@@ -19,9 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: any): Promise<User | Error> {
-        let user: User | null = await this.userService.findOne(
-            payload.username,
-        );
+        let user: User | null = await this.userService.findOne(payload.username);
         if (user && user !== null) {
             return user;
         } else {

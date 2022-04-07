@@ -13,12 +13,8 @@ export class ContainerService {
         @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     ) {}
 
-    async createContainer(
-        createContainerDto: CreateContainerDto,
-    ): Promise<any> {
-        let createdContainer = await this.containerModule.create(
-            createContainerDto,
-        );
+    async createContainer(createContainerDto: CreateContainerDto): Promise<any> {
+        let createdContainer = await this.containerModule.create(createContainerDto);
         return createdContainer;
     }
 
@@ -26,8 +22,7 @@ export class ContainerService {
         if (!mongoose.Types.ObjectId.isValid(containerId)) {
             this.logger.log({
                 level: 'error',
-                message:
-                    'Cannot delete container - id: {containerId} not valid',
+                message: 'Cannot delete container - id: {containerId} not valid',
                 containerId: containerId,
             });
             return new Error('Container id not valid');
@@ -38,8 +33,7 @@ export class ContainerService {
         if (result == null) {
             this.logger.log({
                 level: 'error',
-                message:
-                    'Cannot delete container - container with id: {containerId} not found',
+                message: 'Cannot delete container - container with id: {containerId} not found',
                 containerId: containerId,
             });
             return new Error('Container with id not found');

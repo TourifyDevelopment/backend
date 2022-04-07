@@ -67,9 +67,7 @@ export class ContainerController {
     })
     @HttpCode(200)
     @Get('/:pageId')
-    async getAllContainerForPageId(
-        @Param('pageId') pageId: string,
-    ): Promise<Container[] | null> {
+    async getAllContainerForPageId(@Param('pageId') pageId: string): Promise<Container[] | null> {
         return this.containerService.getAllContainerforPageId(pageId);
     }
 }

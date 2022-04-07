@@ -1,15 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectsService } from './projects.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-    closeInMongodConnection,
-    rootMongooseTestModule,
-} from '../utils/mongodb-helper';
-import {
-    ProjectDocument,
-    ProjectSchema,
-    Project,
-} from './schemas/projects.schema';
+import { closeInMongodConnection, rootMongooseTestModule } from '../utils/mongodb-helper';
+import { ProjectDocument, ProjectSchema, Project } from './schemas/projects.schema';
 import { Model } from 'mongoose';
 import { WinstonModule } from 'nest-winston';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -24,9 +17,7 @@ describe('ProjectsService', () => {
         testingModule = await Test.createTestingModule({
             imports: [
                 rootMongooseTestModule(),
-                MongooseModule.forFeature([
-                    { name: 'Project', schema: ProjectSchema },
-                ]),
+                MongooseModule.forFeature([{ name: 'Project', schema: ProjectSchema }]),
                 WinstonModule.forRootAsync({
                     imports: [ConfigModule],
                     useFactory: async (configService: ConfigService) => ({
@@ -46,8 +37,7 @@ describe('ProjectsService', () => {
         }).compile();
 
         service = testingModule.get<ProjectsService>(ProjectsService);
-        projectModel =
-            testingModule.get<Model<ProjectDocument>>('ProjectModel');
+        projectModel = testingModule.get<Model<ProjectDocument>>('ProjectModel');
     });
 
     test('should be defined', () => {

@@ -1,10 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PagesService } from './pages.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-    closeInMongodConnection,
-    rootMongooseTestModule,
-} from '../utils/mongodb-helper';
+import { closeInMongodConnection, rootMongooseTestModule } from '../utils/mongodb-helper';
 import { PageDocument, PageSchema, Page } from './schemas/pages.schema';
 import { Model } from 'mongoose';
 import { CreatePageDto } from './dto/create-page.dto';
@@ -21,9 +18,7 @@ describe('PagesService', () => {
         testingModule = await Test.createTestingModule({
             imports: [
                 rootMongooseTestModule(),
-                MongooseModule.forFeature([
-                    { name: 'Page', schema: PageSchema },
-                ]),
+                MongooseModule.forFeature([{ name: 'Page', schema: PageSchema }]),
                 WinstonModule.forRootAsync({
                     imports: [ConfigModule],
                     useFactory: async (configService: ConfigService) => ({

@@ -68,9 +68,7 @@ export class ResourcesController {
     })
     @HttpCode(200)
     @Get('/:resourceId')
-    async getResourceById(
-        @Param('resourceId') resourceId: string,
-    ): Promise<Resource | null> {
+    async getResourceById(@Param('resourceId') resourceId: string): Promise<Resource | null> {
         return this.resourcesService.getResourceById(resourceId);
     }
 }

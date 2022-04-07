@@ -1,15 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ContainerService } from './container.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-    closeInMongodConnection,
-    rootMongooseTestModule,
-} from '../utils/mongodb-helper';
-import {
-    ContainerDocument,
-    ContainerSchema,
-    Container,
-} from './schemas/container.schema';
+import { closeInMongodConnection, rootMongooseTestModule } from '../utils/mongodb-helper';
+import { ContainerDocument, ContainerSchema, Container } from './schemas/container.schema';
 import { Model } from 'mongoose';
 import { CreateContainerDto } from './dto/create-container.dto';
 import { WinstonModule } from 'nest-winston';
@@ -25,9 +18,7 @@ describe('ContainerService', () => {
         testingModule = await Test.createTestingModule({
             imports: [
                 rootMongooseTestModule(),
-                MongooseModule.forFeature([
-                    { name: 'Container', schema: ContainerSchema },
-                ]),
+                MongooseModule.forFeature([{ name: 'Container', schema: ContainerSchema }]),
                 WinstonModule.forRootAsync({
                     imports: [ConfigModule],
                     useFactory: async (configService: ConfigService) => ({
@@ -47,8 +38,7 @@ describe('ContainerService', () => {
         }).compile();
 
         service = testingModule.get<ContainerService>(ContainerService);
-        containerModel =
-            testingModule.get<Model<ContainerDocument>>('ContainerModel');
+        containerModel = testingModule.get<Model<ContainerDocument>>('ContainerModel');
     });
 
     test('should be defined', () => {

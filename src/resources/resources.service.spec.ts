@@ -1,16 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ResourcesService } from './resources.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-    closeInMongodConnection,
-    rootMongooseTestModule,
-} from '../utils/mongodb-helper';
-import {
-    ResourceDocument,
-    ResourceSchema,
-    Resource,
-    ResourceType,
-} from './schema/resource.schema';
+import { closeInMongodConnection, rootMongooseTestModule } from '../utils/mongodb-helper';
+import { ResourceDocument, ResourceSchema, Resource, ResourceType } from './schema/resource.schema';
 import { Model } from 'mongoose';
 import { CreateResourceDto } from './dto/create-resource.dto';
 import { WinstonModule } from 'nest-winston';
@@ -26,9 +18,7 @@ describe('ResourceService', () => {
         testingModule = await Test.createTestingModule({
             imports: [
                 rootMongooseTestModule(),
-                MongooseModule.forFeature([
-                    { name: 'Resource', schema: ResourceSchema },
-                ]),
+                MongooseModule.forFeature([{ name: 'Resource', schema: ResourceSchema }]),
                 WinstonModule.forRootAsync({
                     imports: [ConfigModule],
                     useFactory: async (configService: ConfigService) => ({
@@ -48,8 +38,7 @@ describe('ResourceService', () => {
         }).compile();
 
         service = testingModule.get<ResourcesService>(ResourcesService);
-        resourceModel =
-            testingModule.get<Model<ResourceDocument>>('ResourceModel');
+        resourceModel = testingModule.get<Model<ResourceDocument>>('ResourceModel');
     });
 
     test('should be defined', () => {

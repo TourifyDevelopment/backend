@@ -23,10 +23,7 @@ import { DeleteUserDto } from './users/dto/deleteuser.dto';
 
 @Controller()
 export class AppController {
-    constructor(
-        private authService: AuthService,
-        private usersService: UsersService,
-    ) {}
+    constructor(private authService: AuthService, private usersService: UsersService) {}
 
     @Get('/')
     @HttpCode(200)
@@ -42,9 +39,7 @@ export class AppController {
     @UseGuards(LocalAuthGuard)
     @Post('auth/login')
     async login(@Request() req, @Body() _: UserLoginDto) {
-        const user: User | null = await this.usersService.findOne(
-            req.user.username,
-        );
+        const user: User | null = await this.usersService.findOne(req.user.username);
         if (user !== null) {
             return this.authService.login(user);
         } else {
@@ -61,10 +56,7 @@ export class AppController {
     async register(@Body() user: CreateUserDto) {
         const returnValue = await this.usersService.create(user);
         if (returnValue instanceof Error) {
-            throw new HttpException(
-                'Username already taken',
-                HttpStatus.METHOD_NOT_ALLOWED,
-            );
+            throw new HttpException('Username already taken', HttpStatus.METHOD_NOT_ALLOWED);
         }
     }
 
@@ -78,8 +70,7 @@ export class AppController {
     })
     @ApiResponse({
         status: 405,
-        description:
-            'Cannot delete another user(Log in as the user you want to delete)',
+        description: 'Cannot delete another user(Log in as the user you want to delete)',
     })
     @HttpCode(201)
     @UseGuards(JwtAuthGuard)
@@ -87,17 +78,12 @@ export class AppController {
     async deleteUser(@Request() req, @Body() deleteUserDto: DeleteUserDto) {
         // Check if logged in user has the same username as the supplied username
         if (req.user.username === deleteUserDto.username) {
-            const result = await this.usersService.delete(
-                deleteUserDto.username,
-            );
+            const result = await this.usersService.delete(deleteUserDto.username);
             if (result instanceof Error) {
                 throw new HttpException(result.message, HttpStatus.NOT_FOUND);
             }
         } else {
-            throw new HttpException(
-                'Cannot delete another user',
-                HttpStatus.METHOD_NOT_ALLOWED,
-            );
+            throw new HttpException('Cannot delete another user', HttpStatus.METHOD_NOT_ALLOWED);
         }
     }
 
@@ -123,10 +109,7 @@ export class AppController {
     @UseGuards(JwtAuthGuard)
     @HttpCode(201)
     @Post('user/profilePic')
-    async changeProfilePicture(
-        @Request() req,
-        @Body() changePictureDto: ChangeProfilePictureDto,
-    ) {
+    async changeProfilePicture(@Request() req, @Body() changePictureDto: ChangeProfilePictureDto) {
         const result = await this.usersService.changeProfilePicture(
             changePictureDto.picture,
             req.user.username,
@@ -148,9 +131,7 @@ export class AppController {
     @HttpCode(200)
     @Get('user/profilePic')
     async getProfilePicture(@Request() req): Promise<string | null> {
-        let result = await this.usersService.getProfilePicture(
-            req.user.username,
-        );
+        let result = await this.usersService.getProfilePicture(req.user.username);
         if (result == null) {
             throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         }

@@ -27,9 +27,7 @@ export class UsersService {
                 level: 'error',
                 message: 'Cannot create user - username already exists',
             });
-            return new UserAlreadyExistsError(
-                'Username ' + userDto.username + ' already exists',
-            );
+            return new UserAlreadyExistsError('Username ' + userDto.username + ' already exists');
         }
         await this.userModel.create(userDto);
     }
@@ -64,16 +62,12 @@ export class UsersService {
         return this.userModel.find({});
     }
 
-    async changeProfilePicture(
-        picture: string,
-        username: string,
-    ): Promise<{} | Error> {
+    async changeProfilePicture(picture: string, username: string): Promise<{} | Error> {
         const user = await this.userModel.findOne({ username: username });
         if (user == null) {
             this.logger.log({
                 level: 'error',
-                message:
-                    'Cannot change profile picture of user - user not found',
+                message: 'Cannot change profile picture of user - user not found',
             });
             return new Error('Cannot change profile picture');
         } else {

@@ -32,14 +32,11 @@ export class ProjectsService {
             });
             return new Error('ProjectId not valid');
         }
-        const deletedProject = await this.projectModel
-            .findByIdAndRemove(projectId)
-            .exec();
+        const deletedProject = await this.projectModel.findByIdAndRemove(projectId).exec();
         if (deletedProject === null) {
             this.logger.log({
                 level: 'error',
-                message:
-                    'Cannot delete Project with the id: {projectId} - not found',
+                message: 'Cannot delete Project with the id: {projectId} - not found',
                 projectId: projectId,
             });
             return new Error('Project with id not found');

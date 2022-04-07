@@ -45,8 +45,7 @@ export class PagesService {
         if (page == null) {
             this.logger.log({
                 level: 'error',
-                message:
-                    'Cannot delete page - page with id: {pageId} not found',
+                message: 'Cannot delete page - page with id: {pageId} not found',
                 pageId: pageId,
             });
             return new Error('Page with id not found');
