@@ -5,6 +5,9 @@ import { closeInMongodConnection, rootMongooseTestModule } from '../utils/mongod
 import { PageDocument, PageSchema, Page } from './schemas/pages.schema';
 import { Model } from 'mongoose';
 import { CreatePageDto } from './dto/create-page.dto';
+import { WinstonModule } from 'nest-winston';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { SeqTransport } from '@datalust/winston-seq';
 
 
 describe('PagesService', () => {
@@ -18,6 +21,18 @@ describe('PagesService', () => {
             imports: [
                 rootMongooseTestModule(),
                 MongooseModule.forFeature([{ name: 'Page', schema: PageSchema }]),
+                WinstonModule.forRootAsync({
+                    imports: [ConfigModule],
+                    useFactory: async (configService: ConfigService) => ({
+                        transports: [
+                            new SeqTransport({
+                                serverUrl: "http://seq:5341",
+                                onError: (e => { console.error(e) }),
+                            })
+                        ],
+                    }),
+                    inject: [ConfigService],
+                }),
             ],
             providers: [PagesService],
         }).compile();

@@ -5,6 +5,9 @@ import { closeInMongodConnection, rootMongooseTestModule } from '../utils/mongod
 import { ContainerDocument, ContainerSchema, Container } from './schemas/container.schema';
 import { Model } from 'mongoose';
 import { CreateContainerDto } from './dto/create-container.dto';
+import { WinstonModule } from 'nest-winston';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { SeqTransport } from '@datalust/winston-seq';
 
 
 describe('ContainerService', () => {
@@ -18,6 +21,18 @@ describe('ContainerService', () => {
             imports: [
                 rootMongooseTestModule(),
                 MongooseModule.forFeature([{ name: 'Container', schema: ContainerSchema }]),
+                WinstonModule.forRootAsync({
+                    imports: [ConfigModule],
+                    useFactory: async (configService: ConfigService) => ({
+                        transports: [
+                            new SeqTransport({
+                                serverUrl: "http://seq:5341",
+                                onError: (e => { console.error(e) }),
+                            })
+                        ],
+                    }),
+                    inject: [ConfigService],
+                }),
             ],
             providers: [ContainerService],
         }).compile();
