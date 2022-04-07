@@ -1,4 +1,14 @@
-import { Controller, Request, Post, Body, UseGuards, HttpException, HttpStatus, Get, HttpCode } from '@nestjs/common';
+import {
+    Controller,
+    Request,
+    Post,
+    Body,
+    UseGuards,
+    HttpException,
+    HttpStatus,
+    Get,
+    HttpCode,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiProperty, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth/auth.service';
@@ -11,18 +21,14 @@ import { ChangeProfilePictureDto } from './users/dto/changeprofilepic.dto';
 import { UserLoginDto } from './users/dto/userlogin.dto';
 import { DeleteUserDto } from './users/dto/deleteuser.dto';
 
-
 @Controller()
 export class AppController {
-    constructor(
-        private authService: AuthService,
-        private usersService: UsersService
-    ) { }
+    constructor(private authService: AuthService, private usersService: UsersService) {}
 
     @Get('/')
     @HttpCode(200)
     async test() {
-        return 'OK'
+        return 'OK';
     }
 
     @ApiResponse({
@@ -33,10 +39,10 @@ export class AppController {
     @UseGuards(LocalAuthGuard)
     @Post('auth/login')
     async login(@Request() req, @Body() _: UserLoginDto) {
-        let user: User | null = await this.usersService.findOne(req.user.username);
-        if(user !== null) {
+        const user: User | null = await this.usersService.findOne(req.user.username);
+        if (user !== null) {
             return this.authService.login(user);
-        }else{
+        } else {
             throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
         }
     }
@@ -48,7 +54,7 @@ export class AppController {
     @HttpCode(201)
     @Post('auth/register')
     async register(@Body() user: CreateUserDto) {
-        let returnValue = await this.usersService.create(user);
+        const returnValue = await this.usersService.create(user);
         if (returnValue instanceof Error) {
             throw new HttpException('Username already taken', HttpStatus.METHOD_NOT_ALLOWED);
         }
@@ -72,8 +78,8 @@ export class AppController {
     async deleteUser(@Request() req, @Body() deleteUserDto: DeleteUserDto) {
         // Check if logged in user has the same username as the supplied username
         if (req.user.username === deleteUserDto.username) {
-            let result = await this.usersService.delete(deleteUserDto.username);
-            if(result instanceof Error) {
+            const result = await this.usersService.delete(deleteUserDto.username);
+            if (result instanceof Error) {
                 throw new HttpException(result.message, HttpStatus.NOT_FOUND);
             }
         } else {
@@ -104,8 +110,11 @@ export class AppController {
     @HttpCode(201)
     @Post('user/profilePic')
     async changeProfilePicture(@Request() req, @Body() changePictureDto: ChangeProfilePictureDto) {
-        let result = await this.usersService.changeProfilePicture(changePictureDto.picture, req.user.username);
-        if(result instanceof Error) {
+        const result = await this.usersService.changeProfilePicture(
+            changePictureDto.picture,
+            req.user.username,
+        );
+        if (result instanceof Error) {
             throw new HttpException(result.message, HttpStatus.NOT_FOUND);
         }
     }
@@ -123,7 +132,7 @@ export class AppController {
     @Get('user/profilePic')
     async getProfilePicture(@Request() req): Promise<string | null> {
         let result = await this.usersService.getProfilePicture(req.user.username);
-        if(result == null) {
+        if (result == null) {
             throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         }
         return result;
@@ -131,12 +140,13 @@ export class AppController {
 
     @ApiResponse({
         status: 200,
-        description: 'Returns Unauthorized if the user is not logged in or the jwt token is not valid'
+        description:
+            'Returns Unauthorized if the user is not logged in or the jwt token is not valid',
     })
     @UseGuards(JwtAuthGuard)
     @HttpCode(200)
     @Get('user/valid')
     async isValid(@Request() req) {
-        return {username: req.user.username};
+        return { username: req.user.username };
     }
 }

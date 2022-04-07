@@ -7,6 +7,6 @@ import { Container, ContainerSchema } from './schemas/container.schema';
 @Module({
     imports: [MongooseModule.forFeature([{ name: 'Container', schema: ContainerSchema }])],
     controllers: [ContainerController],
-    providers: [ContainerService]
+    providers: [ContainerService],
 })
-export class ContainerModule { }
+export class ContainerModule {}

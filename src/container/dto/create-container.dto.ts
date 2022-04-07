@@ -6,7 +6,7 @@ export class CreateContainerDto {
     pageId: string;
 
     /**
-     * Name of the container (Attention! doesn't have to be unique) 
+     * Name of the container (Attention! doesn't have to be unique)
      * @example "logo_1"
      */
     name: string;

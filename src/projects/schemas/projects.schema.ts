@@ -8,30 +8,30 @@ export type ProjectDocument = Project & Document;
 export class Project {
     @ApiProperty({
         description: `The name of the project`,
-        example: 'TFO tour'
+        example: 'TFO tour',
     })
-    @Prop({required: true})
+    @Prop({ required: true })
     projectName: string;
 
     @ApiProperty({
         description: `The owner of the project(username)`,
-        example: 'user01'
+        example: 'user01',
     })
-    @Prop({required: true})
+    @Prop({ required: true })
     owner: string;
 
     @ApiProperty({
         description: `Description of the project`,
-        example: 'cool description'
+        example: 'cool description',
     })
     @Prop()
     description: string;
 
     @ApiProperty({
         description: `Main map of the project as a blob`,
-        example: 'image/png;base64;alkdjfalk...'
+        example: 'image/png;base64;alkdjfalk...',
     })
-    @Prop({required: true})
+    @Prop({ required: true })
     mapBlob: string;
 }
 

@@ -5,10 +5,7 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 @Injectable()
 export class AppLoggerMiddleware implements NestMiddleware {
-
-    constructor(
-        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger
-    ) { }
+    constructor(@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) {}
 
     use(request: Request, response: Response, next: NextFunction): void {
         const { ip, method } = request;

@@ -1,4 +1,15 @@
-import { Controller, UseGuards, Post, Get, Delete, Body, Param, HttpCode, HttpException, HttpStatus } from '@nestjs/common';
+import {
+    Controller,
+    UseGuards,
+    Post,
+    Get,
+    Delete,
+    Body,
+    Param,
+    HttpCode,
+    HttpException,
+    HttpStatus,
+} from '@nestjs/common';
 import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -8,9 +19,7 @@ import { Resource, ResourceType } from './schema/resource.schema';
 
 @Controller('resources')
 export class ResourcesController {
-    constructor(
-        private resourcesService: ResourcesService
-    ){}
+    constructor(private resourcesService: ResourcesService) {}
 
     @ApiResponse({
         status: 201,
@@ -36,7 +45,7 @@ export class ResourcesController {
     @Delete('/:resourceId')
     async deleteResource(@Param('resourceId') resourceId: string) {
         let result = await this.resourcesService.deleteResource(resourceId);
-        if(result instanceof Error) {
+        if (result instanceof Error) {
             throw new HttpException(result.message, HttpStatus.NOT_FOUND);
         }
     }
@@ -44,7 +53,7 @@ export class ResourcesController {
     @ApiResponse({
         status: 200,
         description: 'Get all resources',
-        type: [Resource]
+        type: [Resource],
     })
     @HttpCode(200)
     @Get('/all')
@@ -55,12 +64,11 @@ export class ResourcesController {
     @ApiResponse({
         status: 200,
         description: 'Get resource by id',
-        type: Resource
+        type: Resource,
     })
     @HttpCode(200)
     @Get('/:resourceId')
     async getResourceById(@Param('resourceId') resourceId: string): Promise<Resource | null> {
         return this.resourcesService.getResourceById(resourceId);
     }
-
 }

@@ -17,5 +17,4 @@ export class CreateUserDto {
      * @example "image/png;base64;alkdjfalk..."
      */
     profilePicture: string;
-
 }

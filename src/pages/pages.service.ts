@@ -6,13 +6,12 @@ import { CreatePageDto } from './dto/create-page.dto';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import mongoose from 'mongoose';
 
-
 @Injectable()
 export class PagesService {
     constructor(
         @InjectModel('Page') private readonly pageModel: Model<Page>,
-        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger
-    ) { }
+        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+    ) {}
 
     async createPage(pageDto: CreatePageDto): Promise<any> {
         // TODO: check if page name is unique
@@ -21,7 +20,9 @@ export class PagesService {
     }
 
     async getAllPagesForProject(projectId: string): Promise<Page[] | null> {
-        let pages: Page[] | null = await this.pageModel.find({ projectId: projectId });
+        let pages: Page[] | null = await this.pageModel.find({
+            projectId: projectId,
+        });
         return pages;
     }
 
@@ -30,25 +31,25 @@ export class PagesService {
         return pages;
     }
 
-    async deletePage(pageId: string): Promise<Error | Page > {
+    async deletePage(pageId: string): Promise<Error | Page> {
         // Check if id is valid mongodb id
-        if(!mongoose.Types.ObjectId.isValid(pageId)){
+        if (!mongoose.Types.ObjectId.isValid(pageId)) {
             this.logger.log({
                 level: 'error',
                 message: 'Cannot delete page - id: {pageId} not valid',
-                pageId: pageId
+                pageId: pageId,
             });
             return new Error('PageId not valid');
         }
-        let page = await this.pageModel.findByIdAndRemove({_id: pageId});
-        if(page == null) {
+        let page = await this.pageModel.findByIdAndRemove({ _id: pageId });
+        if (page == null) {
             this.logger.log({
                 level: 'error',
                 message: 'Cannot delete page - page with id: {pageId} not found',
-                pageId: pageId
+                pageId: pageId,
             });
             return new Error('Page with id not found');
-        }else {
+        } else {
             return page;
         }
     }

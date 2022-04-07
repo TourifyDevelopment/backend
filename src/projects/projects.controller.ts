@@ -1,21 +1,30 @@
-import { Controller, Delete, Get, Post, UseGuards, Param, HttpCode, Request, Body, HttpException, HttpStatus } from '@nestjs/common';
+import {
+    Controller,
+    Delete,
+    Get,
+    Post,
+    UseGuards,
+    Param,
+    HttpCode,
+    Request,
+    Body,
+    HttpException,
+    HttpStatus,
+} from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateProjectDto } from './dto/projects.dto';
 import { ProjectsService } from './projects.service';
 import { Project } from './schemas/projects.schema';
 
-
 @Controller('projects')
 export class ProjectsController {
-
     constructor(private readonly projectsService: ProjectsService) {}
-
 
     @ApiResponse({
         status: 200,
         description: 'Returns all projects',
-        type: [Project]
+        type: [Project],
     })
     @HttpCode(200)
     @Get('/')
@@ -53,9 +62,8 @@ export class ProjectsController {
     })
     async delete(@Param('id') id: string) {
         let response = await this.projectsService.deleteProject(id);
-        if(response instanceof Error) {
-            throw new HttpException(response.message, HttpStatus.NOT_FOUND); 
+        if (response instanceof Error) {
+            throw new HttpException(response.message, HttpStatus.NOT_FOUND);
         }
     }
-
 }

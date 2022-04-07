@@ -6,15 +6,15 @@ import { User } from '../../users/schemas/users.schema';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private authService: AuthService) {
-    super();
-  }
-
-  async validate(username: string, password: string): Promise<any> {
-    const user: User | null = await this.authService.validateUser(username, password);
-    if (!user) {
-      throw new UnauthorizedException();
+    constructor(private authService: AuthService) {
+        super();
     }
-    return user;
-  }
+
+    async validate(username: string, password: string): Promise<any> {
+        const user: User | null = await this.authService.validateUser(username, password);
+        if (!user) {
+            throw new UnauthorizedException();
+        }
+        return user;
+    }
 }

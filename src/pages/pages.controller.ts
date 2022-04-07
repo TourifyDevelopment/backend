@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Param, Post, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpException,
+    HttpStatus,
+    Logger,
+    Param,
+    Post,
+    UseGuards,
+} from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreatePageDto } from './dto/create-page.dto';
@@ -7,9 +18,7 @@ import { Page } from './schemas/pages.schema';
 
 @Controller('pages')
 export class PagesController {
-    constructor(
-        private pagesService: PagesService
-    ) {}
+    constructor(private pagesService: PagesService) {}
 
     @ApiResponse({
         status: 201,
@@ -24,13 +33,13 @@ export class PagesController {
     @ApiResponse({
         status: 200,
         description: 'Returns all pages',
-        type: [Page]
+        type: [Page],
     })
     @Get('/all')
-    async getAllPages(): Promise<Page[]>{
+    async getAllPages(): Promise<Page[]> {
         let allPages = this.pagesService.getAllPages();
         return allPages;
-    } 
+    }
 
     @ApiResponse({
         status: 200,
@@ -43,20 +52,19 @@ export class PagesController {
     @UseGuards(JwtAuthGuard)
     @Delete(':pageId')
     async deletePage(@Param('pageId') pageId: string) {
-        let result = await this.pagesService.deletePage(pageId);
-        if(result instanceof Error) {
+        const result = await this.pagesService.deletePage(pageId);
+        if (result instanceof Error) {
             throw new HttpException(result.message, HttpStatus.NOT_FOUND);
         }
-    } 
+    }
 
     @ApiResponse({
         status: 200,
         description: 'Get a page by id',
-        type: [Page]
+        type: [Page],
     })
     @Get(':projectId')
-    async getAllPagesForProject(@Param() params): Promise<Page[]>{
+    async getAllPagesForProject(@Param() params): Promise<Page[]> {
         return this.pagesService.getAllPagesForProject(params.projectId);
-    } 
-
+    }
 }

@@ -1,4 +1,4 @@
-import { ResourceType } from "../schema/resource.schema";
+import { ResourceType } from '../schema/resource.schema';
 
 export class CreateResourceDto {
     /**

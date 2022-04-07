@@ -8,35 +8,35 @@ export type PageDocument = Page & Document;
 export class Page {
     @ApiProperty({
         description: `Project id of the project this page is part of`,
-        example: 'kfjasdf'
+        example: 'kfjasdf',
     })
-    @Prop({required: true})
+    @Prop({ required: true })
     projectId: string;
 
     @ApiProperty({
         description: `Name of the page, is unique`,
-        example: 'sn_labor'
+        example: 'sn_labor',
     })
-    @Prop({unique: true, required: true})
+    @Prop({ unique: true, required: true })
     name: string;
 
     @ApiProperty({
         description: `Display name of the page`,
-        example: 'SN Labor'
+        example: 'SN Labor',
     })
     @Prop()
     displayName: string;
 
     @ApiProperty({
         description: `Map x coordinate of the page`,
-        example: '50'
+        example: '50',
     })
     @Prop()
     mapX: number;
 
     @ApiProperty({
         description: `Map y coordinate of the page`,
-        example: '30'
+        example: '30',
     })
     @Prop()
     mapY: number;

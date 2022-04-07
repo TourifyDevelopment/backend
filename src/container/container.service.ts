@@ -6,37 +6,38 @@ import { CreateContainerDto } from './dto/create-container.dto';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import mongoose from 'mongoose';
 
-
 @Injectable()
 export class ContainerService {
     constructor(
         @InjectModel('Container') private containerModule: Model<Container>,
-        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger
-    ) { }
+        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+    ) {}
 
     async createContainer(createContainerDto: CreateContainerDto): Promise<any> {
-        let createdContainer = await this.containerModule.create(createContainerDto); 
+        let createdContainer = await this.containerModule.create(createContainerDto);
         return createdContainer;
     }
 
     async deleteContainer(containerId: string): Promise<Error | Container> {
-        if(!mongoose.Types.ObjectId.isValid(containerId)){
+        if (!mongoose.Types.ObjectId.isValid(containerId)) {
             this.logger.log({
                 level: 'error',
                 message: 'Cannot delete container - id: {containerId} not valid',
-                containerId: containerId
+                containerId: containerId,
             });
             return new Error('Container id not valid');
         }
-        let result = await this.containerModule.findOneAndRemove({_id: containerId});
-        if(result == null) {
+        let result = await this.containerModule.findOneAndRemove({
+            _id: containerId,
+        });
+        if (result == null) {
             this.logger.log({
                 level: 'error',
                 message: 'Cannot delete container - container with id: {containerId} not found',
-                containerId: containerId
+                containerId: containerId,
             });
             return new Error('Container with id not found');
-        }else {
+        } else {
             return result;
         }
     }
@@ -46,6 +47,6 @@ export class ContainerService {
     }
 
     async getAllContainerforPageId(pageId: string) {
-        return this.containerModule.find({page_id: pageId});
+        return this.containerModule.find({ page_id: pageId });
     }
 }

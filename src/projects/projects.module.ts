@@ -9,4 +9,4 @@ import { Project, ProjectSchema } from './schemas/projects.schema';
     controllers: [ProjectsController],
     providers: [ProjectsService],
 })
-export class ProjectsModule { }
+export class ProjectsModule {}

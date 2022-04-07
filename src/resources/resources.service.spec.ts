@@ -9,12 +9,10 @@ import { WinstonModule } from 'nest-winston';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SeqTransport } from '@datalust/winston-seq';
 
-
 describe('ResourceService', () => {
     let service: ResourcesService;
     let testingModule: TestingModule;
     let resourceModel: Model<ResourceDocument>;
-
 
     beforeEach(async () => {
         testingModule = await Test.createTestingModule({
@@ -26,9 +24,11 @@ describe('ResourceService', () => {
                     useFactory: async (configService: ConfigService) => ({
                         transports: [
                             new SeqTransport({
-                                serverUrl: "http://seq:5341",
-                                onError: (e => { console.error(e) }),
-                            })
+                                serverUrl: 'http://seq:5341',
+                                onError: (e) => {
+                                    console.error(e);
+                                },
+                            }),
                         ],
                     }),
                     inject: [ConfigService],
@@ -37,10 +37,8 @@ describe('ResourceService', () => {
             providers: [ResourcesService],
         }).compile();
 
-
         service = testingModule.get<ResourcesService>(ResourcesService);
         resourceModel = testingModule.get<Model<ResourceDocument>>('ResourceModel');
-
     });
 
     test('should be defined', () => {
@@ -48,7 +46,7 @@ describe('ResourceService', () => {
     });
 
     test('create resource', async () => {
-        let newResource = new CreateResourceDto();
+        const newResource = new CreateResourceDto();
         newResource.type = ResourceType.Image;
         newResource.blob = 'image/png...';
 
@@ -61,7 +59,7 @@ describe('ResourceService', () => {
     });
 
     test('delete resource', async () => {
-        let newResource = new CreateResourceDto();
+        const newResource = new CreateResourceDto();
         newResource.type = ResourceType.Image;
         newResource.blob = 'image/png...';
 
@@ -69,7 +67,6 @@ describe('ResourceService', () => {
         await service.deleteResource(createdResource._id);
 
         let allResources = await resourceModel.find().exec();
-
 
         expect(allResources.length).toBe(0);
     });
@@ -81,7 +78,6 @@ describe('ResourceService', () => {
     test('get all resources', () => {
         //TODO: implement this
     });
-
 
     afterEach(async () => {
         // delete all entries after each test
