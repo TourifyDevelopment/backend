@@ -23,7 +23,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 11462,
   "graphTooltip": 0,
-  "iteration": 1648451994596,
+  "iteration": 1649329233498,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -281,9 +281,11 @@
       "legend": {
         "percentage": true,
         "show": true,
+        "sort": "current",
+        "sortDesc": true,
         "values": true
       },
-      "legendType": "Right side",
+      "legendType": "Under graph",
       "links": [],
       "maxDataPoints": 3,
       "nullPointMode": "connected",
@@ -295,9 +297,10 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "exemplar": true,
+          "exemplar": false,
           "expr": "topk(5, sum(traefik_service_requests_total{protocol=\"http\"}) by (code))\r\n",
           "format": "time_series",
+          "instant": true,
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{code}}",
@@ -1144,7 +1147,7 @@
       }
     }
   ],
-  "refresh": "5s",
+  "refresh": "",
   "schemaVersion": 35,
   "style": "dark",
   "tags": [
