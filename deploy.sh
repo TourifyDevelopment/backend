@@ -6,6 +6,13 @@ RED='\033[0;31m'
 WHITE='\033[0;37m'
 RESET='\033[0m'
 
+
+cd backend
+echo -e "${GREEN}[DEPLOY]${RESET} Stopping docker container..."
+sudo ${DOCKER_CONFIG}/cli-plugins/docker-compose stop
+cd ..
+
+
 echo -e "${GREEN}[DEPLOY]${RESET} Do you really want to remove the backend and make a clean install? y/n "
 read choice
 if [[ $choice == n* ]]; then
@@ -15,7 +22,7 @@ fi
 
 
 echo -e "${GREEN}[DEPLOY]${RESET} Removing current backend..."
-rm -rf backend
+sudo rm -rf backend
 
 echo -e "${GREEN}[DEPLOY]${RESET} Cloning backend "
 git clone https://github.com/TourifyDevelopment/backend.git
@@ -27,8 +34,6 @@ git log --oneline HEAD^..HEAD
 echo -e "${GREEN}[DEPLOY]${RESET} Renaming env file... "
 mv .env.sample .env
 
-echo -e "${GREEN}[DEPLOY]${RESET} Stopping docker container..."
-sudo ${DOCKER_CONFIG}/cli-plugins/docker-compose stop
 
 echo -e "${GREEN}[DEPLOY]${RESET} Delete old containers (data in mongodb)? y/n "
 read choice
@@ -40,12 +45,3 @@ fi
 echo -e "${GREEN}[DEPLOY]${RESET} Starting containers... "
 sudo ${DOCKER_CONFIG}/cli-plugins/docker-compose build
 sudo ${DOCKER_CONFIG}/cli-plugins/docker-compose up -d
-
-
-sudo docker stop seq
-sudo docker rm seq
-
-PH=$(echo 'admin' | sudo docker run --rm -i datalust/seq config hash)
-mkdir -p /home/gruppe2/seqdata
-
-sudo docker run --name seq -d --restart unless-stopped -e ACCEPT_EULA=Y -e SEQ_FIRSTRUN_ADMINPASSWORDHASH="$PH" -v /home/gruppe2/seqdata:/data -p 81:80 -p 5341:5341 datalust/seq
