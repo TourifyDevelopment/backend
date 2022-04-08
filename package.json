@@ -29,7 +29,7 @@
     "@nestjs/mongoose": "^9.0.3",
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.0.0",
-    "@nestjs/swagger": "^5.2.0",
+    "@nestjs/swagger": "^5.2.1",
     "@willsoto/nestjs-prometheus": "^4.6.0",
     "mongoose": "^6.2.7",
     "nest-winston": "^1.6.2",

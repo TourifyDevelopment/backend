@@ -11,13 +11,14 @@ import {
     HttpStatus,
 } from '@nestjs/common';
 import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
-import { ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateResourceDto } from './dto/create-resource.dto';
 import { ResourcesService } from './resources.service';
 import { Resource, ResourceType } from './schema/resource.schema';
 
 @Controller('resources')
+@ApiTags('resources')
 export class ResourcesController {
     constructor(private resourcesService: ResourcesService) {}
 

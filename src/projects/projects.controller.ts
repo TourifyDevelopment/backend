@@ -11,13 +11,14 @@ import {
     HttpException,
     HttpStatus,
 } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateProjectDto } from './dto/projects.dto';
 import { ProjectsService } from './projects.service';
 import { Project } from './schemas/projects.schema';
 
 @Controller('projects')
+@ApiTags('projects')
 export class ProjectsController {
     constructor(private readonly projectsService: ProjectsService) {}
 

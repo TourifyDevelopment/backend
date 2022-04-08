@@ -10,13 +10,14 @@ import {
     Post,
     UseGuards,
 } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreatePageDto } from './dto/create-page.dto';
 import { PagesService } from './pages.service';
 import { Page } from './schemas/pages.schema';
 
 @Controller('pages')
+@ApiTags('pages')
 export class PagesController {
     constructor(private pagesService: PagesService) {}
 
