@@ -10,7 +10,11 @@ async function bootstrap() {
         .setTitle('Tourify-Backend')
         .setDescription('API description of the Tourify Backend')
         .setVersion('1.0')
-        .addTag('Tourify')
+        .addTag('container')
+        .addTag('pages')
+        .addTag('projects')
+        .addTag('resources')
+        .addTag('users')
         .build();
 
     const document = SwaggerModule.createDocument(app, config);

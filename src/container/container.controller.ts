@@ -15,8 +15,10 @@ import { CreateContainerDto } from './dto/create-container.dto';
 import { ContainerService } from './container.service';
 import { ApiResponse } from '@nestjs/swagger';
 import { Container } from './schemas/container.schema';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('container')
+@ApiTags('container')
 export class ContainerController {
     constructor(private containerService: ContainerService) {}
 

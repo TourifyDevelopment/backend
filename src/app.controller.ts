@@ -10,7 +10,7 @@ import {
     HttpCode,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiProperty, ApiResponse } from '@nestjs/swagger';
+import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/guards/local-auth.guard';
 import { CreateUserDto } from './users/dto/users.dto';
@@ -22,6 +22,7 @@ import { UserLoginDto } from './users/dto/userlogin.dto';
 import { DeleteUserDto } from './users/dto/deleteuser.dto';
 
 @Controller()
+@ApiTags('users')
 export class AppController {
     constructor(private authService: AuthService, private usersService: UsersService) {}
 
