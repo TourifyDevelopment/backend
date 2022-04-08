@@ -9,6 +9,7 @@
     "start:dev": "tsc-watch -p tsconfig.build.json --onSuccess \"node -r dotenv/config dist/main.js dotenv_config_path=../.env\"",
     "start:test": "tsc-watch -p tsconfig.build.json --onSuccess \"node -r dotenv/config dist/main.js dotenv_config_path=../.env.test\"",
     "start:prod": "node dist/main.js",
+    "test": "jest --verbose --runInBand --detectOpenHandles --forceExit",
     "lint": "eslint \"src/**/*.ts\" --fix"
   },
   "dependencies": {

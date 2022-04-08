@@ -2,23 +2,40 @@ version: "3.9"
 
 
 services:
-  app:
-    build: .
+  gateway:
+    build: ./gateway
+    restart: always
+    hostname: gateway
     labels:
       - traefik.enable=true
       - traefik.http.routers.app_route.entrypoints=http
       - traefik.http.routers.app_route.rule=PathPrefix(`/`)
       - traefik.http.routers.app_route.service=app_service
       - traefik.http.services.app_service.loadbalancer.server.port=80
+    env_file:
+      - .env
+    ports:
+      - "80:80"
     networks:
-      - traefik_public
-    environment:
-      - DB_URL=mongodb://user:test@mongodb:27017
-    deploy:
-        replicas: 2
+      - backend
     depends_on:
       - mongodb
       - seq
+
+  project:
+    build: ./project
+    restart: always
+    hostname: project
+    env_file:
+      - .env
+    networks:
+      - backend
+    depends_on:
+      - mongodb
+      - seq
+
+
+
 
 
   mongodb:
@@ -29,14 +46,12 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=test
 
     networks:
-      - traefik_public
-#    ports:
-#      - "27017:27017"
+      - backend
 
   prometheus:
     image: prom/prometheus
     networks: 
-      - traefik_public
+      - backend
     volumes:
       - "./config:/etc/prometheus"
     ports:
@@ -54,7 +69,7 @@ services:
       - "./config/grafana/dashboards:/etc/grafana/provisioning/dashboards"
       - "./config/grafana/grafana.ini:/etc/grafana/grafana.ini"
     networks:
-      - traefik_public
+      - backend
 
   traefik:
     image: traefik:v2.6
@@ -66,7 +81,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     restart: unless-stopped
     networks:
-      - traefik_public
+      - backend
 
   seq:
     image: datalust/seq
@@ -81,8 +96,8 @@ services:
       - SEQ_FIRSTRUN_ADMINPASSWORDHASH=FMw4y8Yz3YVX+FAEDHTb7D6RC1WF2RVIm2/FImDF63yYGxBtPg==
     restart: unless-stopped
     networks:
-      - traefik_public
+      - backend
 
 networks:
-  traefik_public:
+  backend:
     driver: bridge

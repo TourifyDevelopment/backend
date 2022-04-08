@@ -1,29 +1,28 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Project, ProjectDocument } from './schemas/projects.schema';
 import { Model } from 'mongoose';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import mongoose from 'mongoose';
-import { errorMonitor } from 'events';
+import { IProject } from 'src/interfaces/project.interface';
 
 @Injectable()
-export class ProjectsService {
+export class ProjectService {
     constructor(
         @InjectModel('Project')
-        private readonly projectModel: Model<ProjectDocument>,
+        private readonly projectModel: Model<IProject>,
         @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     ) {}
 
-    async create(project: Project): Promise<any> {
-        const createdProject = await this.projectModel.create(project);
-        return createdProject;
+    async createProject(project: IProject): Promise<IProject> {
+        const createdProject = new this.projectModel(project);
+        return await createdProject.save();
     }
 
-    async findAll(): Promise<Project[]> {
+    async findAll(): Promise<IProject[]> {
         return this.projectModel.find().exec();
     }
 
-    async deleteProject(projectId: string): Promise<Error | Project> {
+    async deleteProject(projectId: string): Promise<Error | IProject> {
         if (!mongoose.Types.ObjectId.isValid(projectId)) {
             this.logger.log({
                 level: 'error',
