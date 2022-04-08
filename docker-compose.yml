@@ -32,7 +32,17 @@ services:
       - mongodb
       - seq
 
-
+  user:
+    build: ./user
+    restart: always
+    hostname: user
+    env_file:
+      - .env
+    networks:
+      - backend
+    links:
+      - mongodb
+      - seq
 
 
 

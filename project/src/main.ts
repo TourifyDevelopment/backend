@@ -14,6 +14,6 @@ async function bootstrap() {
       },
     } as TcpOptions
   );
-  await app.listenAsync();
+  await app.listen();
 }
 bootstrap();
