@@ -4,8 +4,8 @@ import { ClientProxyFactory } from '@nestjs/microservices';
 
 import { ProjectsController } from './projects.controller';
 
-import { AuthGuard } from './services/guards/authorization.guard';
-import { PermissionGuard } from './services/guards/permission.guard';
+//import { AuthGuard } from './services/guards/authorization.guard';
+//import { PermissionGuard } from './services/guards/permission.guard';
 
 import { ConfigService } from './services/config/config.service';
 
@@ -21,6 +21,7 @@ import { ConfigService } from './services/config/config.service';
       },
       inject: [ConfigService],
     },
+    /*
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
@@ -29,6 +30,7 @@ import { ConfigService } from './services/config/config.service';
       provide: APP_GUARD,
       useClass: PermissionGuard,
     },
+    */
   ],
 })
 export class AppModule {}
