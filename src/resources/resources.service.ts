@@ -15,6 +15,7 @@ export class ResourcesService {
 
     async addResource(createResourceDto: CreateResourceDto): Promise<any> {
         let createdResource = await this.resourceModel.create(createResourceDto);
+        this.logger.log({level: 'info', message: 'New resource created successfully'});
         return createdResource;
     }
 
@@ -38,6 +39,7 @@ export class ResourcesService {
             });
             return new Error('Resource with id not found');
         } else {
+            this.logger.log({level: 'info', message: 'Resource deleted successfully'});
             return resource;
         }
     }

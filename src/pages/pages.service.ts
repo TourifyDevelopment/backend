@@ -16,6 +16,7 @@ export class PagesService {
     async createPage(pageDto: CreatePageDto): Promise<any> {
         // TODO: check if page name is unique
         let createdPage = await this.pageModel.create(pageDto);
+        this.logger.log({level: 'info', message: 'New page created successfully'});
         return createdPage;
     }
 
@@ -50,6 +51,7 @@ export class PagesService {
             });
             return new Error('Page with id not found');
         } else {
+            this.logger.log({level: 'info', message: 'Page deleted successfully'});
             return page;
         }
     }
