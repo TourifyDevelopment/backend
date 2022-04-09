@@ -4,6 +4,7 @@ import { User } from './schemas/users.schema';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/users.dto';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import * as bcrypt from 'bcrypt';
 
 class UserAlreadyExistsError extends Error {
     constructor(message: string) {
@@ -29,7 +30,13 @@ export class UsersService {
             });
             return new UserAlreadyExistsError('Username ' + userDto.username + ' already exists');
         }
+
+        // Hash password with salt
+        userDto.password = await bcrypt.hash(userDto.password, 10);
+
+        // Create user
         await this.userModel.create(userDto);
+        this.logger.log({level: 'info', message: 'New user created'});
     }
 
     async findOne(username: string): Promise<User | null> {
@@ -53,6 +60,7 @@ export class UsersService {
             });
             return new Error('User with username not found');
         } else {
+            this.logger.log({level: 'info', message: 'User deleted successfully'});
             return {};
         }
     }
@@ -73,6 +81,7 @@ export class UsersService {
         } else {
             user.profilePicture = picture;
             await user.save();
+            this.logger.log({level: 'info', message: 'Profile picture of user changed successfully'});
             return {};
         }
     }

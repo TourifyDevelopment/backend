@@ -4,7 +4,6 @@ import { Project, ProjectDocument } from './schemas/projects.schema';
 import { Model } from 'mongoose';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import mongoose from 'mongoose';
-import { errorMonitor } from 'events';
 
 @Injectable()
 export class ProjectsService {
@@ -16,6 +15,7 @@ export class ProjectsService {
 
     async create(project: Project): Promise<any> {
         const createdProject = await this.projectModel.create(project);
+        this.logger.log({level: 'info', message: 'New project created succcessfully'});
         return createdProject;
     }
 
@@ -41,6 +41,7 @@ export class ProjectsService {
             });
             return new Error('Project with id not found');
         } else {
+            this.logger.log({level: 'info', message: 'Project deleted succcessfully'});
             return deletedProject;
         }
     }

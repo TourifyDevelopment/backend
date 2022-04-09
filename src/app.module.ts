@@ -11,7 +11,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { AppLoggerMiddleware } from './utils/logger.middleware';
-import * as winston from 'winston';
 import { WinstonModule } from 'nest-winston';
 import { SeqTransport } from '@datalust/winston-seq';
 
@@ -37,6 +36,7 @@ import { SeqTransport } from '@datalust/winston-seq';
         WinstonModule.forRootAsync({
             imports: [ConfigModule],
             useFactory: async (configService: ConfigService) => ({
+                level: 'debug',
                 transports: [
                     new SeqTransport({
                         serverUrl: 'http://seq:5341',

@@ -15,6 +15,7 @@ export class ContainerService {
 
     async createContainer(createContainerDto: CreateContainerDto): Promise<any> {
         let createdContainer = await this.containerModule.create(createContainerDto);
+        this.logger.log({level: 'info', message: 'New container created successfully'});
         return createdContainer;
     }
 
@@ -38,6 +39,7 @@ export class ContainerService {
             });
             return new Error('Container with id not found');
         } else {
+            this.logger.log({level: 'info', message: 'Container deleted successfully'});
             return result;
         }
     }
