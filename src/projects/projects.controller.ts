@@ -47,7 +47,7 @@ export class ProjectsController {
         project.mapBlob = createProjectDto.mapBlob;
         // Add owner extracted from access_token to created project
         project.owner = req.user.username;
-        await this.projectsService.create(project);
+        return await this.projectsService.create(project);
     }
 
     @UseGuards(JwtAuthGuard)

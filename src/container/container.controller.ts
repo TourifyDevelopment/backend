@@ -30,7 +30,7 @@ export class ContainerController {
     @UseGuards(JwtAuthGuard)
     @Post('/')
     async createContainer(@Body() createContainerDto: CreateContainerDto) {
-        await this.containerService.createContainer(createContainerDto);
+        return await this.containerService.createContainer(createContainerDto);
     }
 
     @ApiResponse({

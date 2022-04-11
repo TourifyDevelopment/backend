@@ -28,7 +28,7 @@ export class PagesController {
     @UseGuards(JwtAuthGuard)
     @Post('/')
     async createPage(@Body() createPageDto: CreatePageDto) {
-        await this.pagesService.createPage(createPageDto);
+        return await this.pagesService.createPage(createPageDto);
     }
 
     @ApiResponse({
