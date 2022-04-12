@@ -52,6 +52,7 @@ export class ResourcesService {
                 message: 'Could not get resource with id: {resourceId} - resource not found',
                 resourceId: resourceId,
             });
+            return null;
         }
         return resource;
     }

@@ -9,13 +9,14 @@ import {
     HttpCode,
     HttpException,
     HttpStatus,
+    Res,
 } from '@nestjs/common';
-import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
-import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateResourceDto } from './dto/create-resource.dto';
 import { ResourcesService } from './resources.service';
 import { Resource, ResourceType } from './schema/resource.schema';
+import {Response} from 'express';
 
 @Controller('resources')
 @ApiTags('resources')
@@ -67,9 +68,18 @@ export class ResourcesController {
         description: 'Get resource by id',
         type: Resource,
     })
+    @ApiResponse({
+        status: 404,
+        description: 'Resource not found',
+        type: null,
+    })
     @HttpCode(200)
     @Get('/:resourceId')
-    async getResourceById(@Param('resourceId') resourceId: string): Promise<Resource | null> {
-        return this.resourcesService.getResourceById(resourceId);
+    async getResourceById(@Param('resourceId') resourceId: string): Promise<Resource | void> {
+        let resource = await this.resourcesService.getResourceById(resourceId);
+        if(resource === null) {
+            throw new HttpException('Resource not found', HttpStatus.NOT_FOUND);
+        }
+        return resource;
     }
 }
