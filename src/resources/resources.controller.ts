@@ -30,7 +30,7 @@ export class ResourcesController {
     @UseGuards(JwtAuthGuard)
     @Post('/')
     async addResource(@Body() createResourceDto: CreateResourceDto) {
-        await this.resourcesService.addResource(createResourceDto);
+        return await this.resourcesService.addResource(createResourceDto);
     }
 
     @ApiResponse({
