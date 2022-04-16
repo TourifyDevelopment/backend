@@ -45,10 +45,19 @@ export class ContainerService {
     }
 
     async getAllContainer() {
-        return this.containerModule.find();
+        let containers = await this.containerModule.find();
+        return this.sortContainers(containers);
     }
 
     async getAllContainerforPageId(pageId: string) {
-        return this.containerModule.find({ page_id: pageId });
+        let containers = await this.containerModule.find({ pageId: pageId });
+        return this.sortContainers(containers);
+    }
+
+    sortContainers(containers: any[]): any[] {
+        containers = containers.sort((a, b) => {
+            return a.yCoordinate - b.yCoordinate;
+        });
+        return containers;
     }
 }
