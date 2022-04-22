@@ -58,8 +58,8 @@ export class ContainerController {
     })
     @HttpCode(200)
     @Get('/all')
-    async getAllContainer(): Promise<Container[] | null> {
-        return this.containerService.getAllContainer();
+    async getAllContainer(): Promise<Container[]> {
+        return await this.containerService.getAllContainer();
     }
 
     @ApiResponse({

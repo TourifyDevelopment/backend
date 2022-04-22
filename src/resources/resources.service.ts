@@ -57,7 +57,7 @@ export class ResourcesService {
         return resource;
     }
 
-    async getAllResources(): Promise<Resource[] | null> {
-        return this.resourceModel.find();
+    async getAllResources() {
+        return await this.resourceModel.find();
     }
 }

@@ -57,10 +57,10 @@ export class ResourcesController {
         description: 'Get all resources',
         type: [Resource],
     })
-    @HttpCode(200)
     @Get('/all')
-    async getAllResources(): Promise<Resource[] | null> {
-        return this.resourcesService.getAllResources();
+    @HttpCode(200)
+    async getAllResources(): Promise<Resource[]> {
+        return await this.resourcesService.getAllResources();
     }
 
     @ApiResponse({
